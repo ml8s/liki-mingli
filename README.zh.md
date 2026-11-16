@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="./README.md"><img alt="English" src="https://img.shields.io/badge/English-4a9e6b?style=flat-square"></a>
-  <a href="https://github.com/ml8s/liki/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ml8s/liki/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/ml8s/liki-mingli/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ml8s/liki-mingli/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-4a9e6b?style=flat-square"></a>
   <a href="https://liki.hk"><img alt="website" src="https://img.shields.io/badge/liki.hk-6d5acf?style=flat-square"></a>
 </p>
@@ -117,12 +117,13 @@ Skill 本体免费安装使用（`liki-free`）。另有付费的 `liki-pro` 分
 
 ### 和 liki.hk 网页版是什么关系？
 
-同一套引擎与规则体系。liki.hk 面向网页用户，Liki Skill 把同样的能力带进你的 AI 助手。整个系统由四个仓库组成（liki、liki-agent-runtime、liki-web、liki-deploy），本仓库是 Skill 的源码仓。
+同一套引擎与规则体系。liki.hk 面向网页用户，Liki Skill 把同样的能力带进你的 AI 助手。本仓库 `liki-mingli` 是源库（引擎、counsel、skill 与部署产物）；`liki` 是 Skill 分发库；运行时与前端分别是 `liki-agent-runtime`、`liki-web`，部署编排在 `liki-deploy`。
 
 ## 文档与链接
 
 - 完整使用说明：[用户指南](./docs/USER_GUIDE.md)
 - 官网：[liki.hk](https://liki.hk)
+- Skill 分发库：[ml8s/liki](https://github.com/ml8s/liki)，安装：`npx skills add ml8s/liki`
 - 参与贡献：[CONTRIBUTING](./CONTRIBUTING.md) · 变更历史：[CHANGELOG](./CHANGELOG.md)
 - 许可：MIT；内嵌地理数据不由 MIT 重新授权，见 [NOTICE](./NOTICE.md)
 

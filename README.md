@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="./README.zh.md"><img alt="中文" src="https://img.shields.io/badge/中文-4a9e6b?style=flat-square"></a>
-  <a href="https://github.com/ml8s/liki/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ml8s/liki/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/ml8s/liki-mingli/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ml8s/liki-mingli/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-4a9e6b?style=flat-square"></a>
   <a href="https://liki.hk"><img alt="website" src="https://img.shields.io/badge/liki.hk-6d5acf?style=flat-square"></a>
 </p>
@@ -132,6 +132,7 @@ A calculator gives you a chart. Liki Skill gives you the chart plus sourced read
 
 - Full usage: [user guide](./docs/USER_GUIDE.en.md)
 - Website: [liki.hk](https://liki.hk)
+- Skill distribution: [ml8s/liki](https://github.com/ml8s/liki) — install with `npx skills add ml8s/liki`
 - Contributing: [CONTRIBUTING](./CONTRIBUTING.md) · Release history: [CHANGELOG](./CHANGELOG.md)
 - License: MIT; bundled geographic data is not relicensed — see [NOTICE](./NOTICE.md)
 
