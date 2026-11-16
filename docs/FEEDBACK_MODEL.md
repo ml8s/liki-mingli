@@ -1,13 +1,13 @@
 # 反馈领域模型与契约
 
-本文定义 skill 运行期反馈的 `feedback-v1` 契约。反馈用于定位 skill、engine、agent 宿主和模型协作中的问题；它不是用户行为埋点，也不是用户画像采集。
+本文定义 skill 运行期反馈的契约。反馈用于定位 skill、engine、agent 宿主和模型协作中的问题；它不是用户行为埋点，也不是用户画像采集。
 
 当前仓库只定义客户端契约与 skill 分发内容，不包含反馈后端实现。
 
 ## 1. 设计原则
 
 - 只保留能判断问题层级的字段：skill / engine / agent / model。
-- 不追求完整观测；RPC 明细、全流程序列、性能指标和输出质量都不进入 v1。
+- 不追求完整观测；RPC 明细、全流程序列、性能指标和输出质量都不进入契约。
 - 不采集对话原文、用户身份、出生数据、完整命盘或完整 RPC 报文。
 - 缺少宿主信息时写 `unknown`；LLM 不得自行猜测模型身份。
 - 同一会话同一问题只提交一次；agent 自主择时，不请求用户确认且失败不阻塞；最终回执必须包含 `Feedback: submitted|disabled|failed`。
@@ -20,13 +20,13 @@
 skills/liki/feedback.schema.json
 ```
 
-契约版本固定为 `feedback-v1`。字段结构或语义变化时升级版本。
+契约以这份 schema 为唯一来源，不设版本号；结构或语义变化时直接修改 schema。
 
 ## 3. 分组
 
 | 组 | 必填 | 字段 | 用途 |
 |---|---|---|---|
-| `meta` | 是 | `source`, `skill`, `session_hash?`, `skill_version?`, `engine_version?` | 识别反馈来源和会话去重；两个 version 字段仅为旧包兼容，可选且不注入 |
+| `meta` | 是 | `source`, `skill`, `session_hash?` | 识别反馈来源和会话去重 |
 | `agent` | 是 | `name`, `version` | 判断是否为 agent 宿主或框架问题 |
 | `llm` | 是 | `provider`, `model`, `model_version?` | 判断是否为模型能力或快照差异 |
 | `problem` | 是 | `type`, `severity`, `summary`, `tool?`, `expected?`, `observed?` | 描述问题本体 |
@@ -48,7 +48,6 @@ skills/liki/feedback.schema.json
 
 ```json
 {
-  "schema_version": "feedback-v1",
   "meta": {
     "source": "skill-agent",
     "skill": "liki"
@@ -74,15 +73,15 @@ skills/liki/feedback.schema.json
 
 ## 6. 后端兼容
 
-`schema_version`, `meta`, `agent`, `llm`, `problem` 是必填项。后端是否需要改动取决于现有 `/api/feedback` 的形状。
+`meta`, `agent`, `llm`, `problem` 是必填项。后端是否需要改动取决于现有 `/api/feedback` 的形状。
 
 如果后端接受 JSON body、允许未知字段，并把反馈保存为 JSON / JSONB / 文本，则不需要迁移。  
-如果后端使用固定 DTO 或 strict schema，需要做一次 additive update：保留旧字段，新增可选的 `feedback-v1` 字段。
+如果后端使用固定 DTO 或 strict schema，需要随 schema 同步调整字段。
 
-第一版数据库可以只用一个 payload 字段：
+数据库可以只用一个 payload 字段：
 
 ```text
-feedback(id, schema_version, payload_json, created_at)
+feedback(id, payload_json, created_at)
 ```
 
 ## 7. 运行治理
@@ -121,4 +120,4 @@ backend 必须独立执行 payload 大小限制、rate limit、基础 PII 扫描
 - 断语输出全文；
 - IP、hostname、本地路径、API key。
 
-只允许技术摘要、版本号、受控枚举和非隐私问题描述。`summary / expected / observed` 不得复述用户原文，也不得包含出生数据、姓名、地点、卦题、命盘或 RPC 全文。
+只允许技术摘要、宿主与模型元信息、受控枚举和非隐私问题描述。`summary / expected / observed` 不得复述用户原文，也不得包含出生数据、姓名、地点、卦题、命盘或 RPC 全文。

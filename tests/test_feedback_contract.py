@@ -14,7 +14,6 @@ class TestFeedbackContract(unittest.TestCase):
         schema = json.loads((SKILL_ROOT / "feedback.schema.json").read_text(encoding="utf-8"))
         validator = Draft202012Validator(schema)
         payload = {
-            "schema_version": "feedback-v1",
             "meta": {
                 "source": "skill-agent",
                 "skill": "liki",
@@ -38,7 +37,6 @@ class TestFeedbackContract(unittest.TestCase):
 
         validator = Draft202012Validator(schema)
         valid = {
-            "schema_version": "feedback-v1",
             "meta": {
                 "source": "skill-agent",
                 "skill": "liki",
@@ -55,12 +53,12 @@ class TestFeedbackContract(unittest.TestCase):
             with self.assertRaises(ValidationError):
                 validator.validate(invalid)
 
-    def test_schema_keeps_v1_minimal(self):
+    def test_schema_keeps_minimal(self):
         schema = json.loads((SKILL_ROOT / "feedback.schema.json").read_text(encoding="utf-8"))
-        self.assertEqual(set(schema["required"]), {"schema_version", "meta", "agent", "llm", "problem"})
-        self.assertEqual(set(schema["properties"]), {"schema_version", "meta", "agent", "llm", "problem"})
+        self.assertEqual(set(schema["required"]), {"meta", "agent", "llm", "problem"})
+        self.assertEqual(set(schema["properties"]), {"meta", "agent", "llm", "problem"})
         for group, allowed in {
-            "meta": {"source", "skill", "skill_version", "engine_version", "session_hash"},
+            "meta": {"source", "skill", "session_hash"},
             "agent": {"name", "version"},
             "llm": {"provider", "model", "model_version"},
             "problem": {"type", "severity", "tool", "summary", "expected", "observed"},
@@ -71,7 +69,6 @@ class TestFeedbackContract(unittest.TestCase):
         schema = json.loads((SKILL_ROOT / "feedback.schema.json").read_text(encoding="utf-8"))
         validator = Draft202012Validator(schema)
         payload = {
-            "schema_version": "feedback-v1",
             "meta": {
                 "source": "skill-agent",
                 "skill": "liki",
@@ -88,7 +85,6 @@ class TestFeedbackContract(unittest.TestCase):
         schema = json.loads((SKILL_ROOT / "feedback.schema.json").read_text(encoding="utf-8"))
         validator = Draft202012Validator(schema)
         payload = {
-            "schema_version": "feedback-v1",
             "meta": {
                 "source": "skill-agent",
                 "skill": "liki",
@@ -137,7 +133,6 @@ class TestFeedbackContract(unittest.TestCase):
         self.assertIn("LIKI_FEEDBACK_DISABLED=1", text)
         self.assertIn("https://liki.hk/api/feedback", text)
         self.assertIn("feedback.schema.json", text)
-        self.assertIn("feedback-v1", text)
         self.assertIn("python3 scripts/feedback.py --payload-file", text)
         self.assertIn("未知宿主 / 模型值填 `unknown`", text)
         for issue_type in ("error", "gap", "conflict", "friction", "clarity"):
@@ -148,14 +143,12 @@ class TestFeedbackContract(unittest.TestCase):
         validator = Draft202012Validator(schema)
         with self.assertRaises(ValidationError):
             validator.validate({
-                "schema_version": "feedback-v1",
-                "meta": {},
+                    "meta": {},
                 "problem": {"type": "clarity", "severity": "low", "summary": "valid problem"},
             })
         with self.assertRaises(ValidationError):
             validator.validate({
-                "schema_version": "feedback-v1",
-                "meta": {
+                    "meta": {
                     "source": "skill-agent",
                     "skill": "liki",
                 },
@@ -163,10 +156,9 @@ class TestFeedbackContract(unittest.TestCase):
                 "problem": {"type": "clarity", "severity": "low", "summary": "valid problem"},
             })
 
-    def test_unified_skill_publishes_feedback_v1_policy(self):
+    def test_unified_skill_publishes_feedback_policy(self):
         text = (SKILL_ROOT / "references" / "ops-FEEDBACK.md").read_text(encoding="utf-8")
         self.assertIn("https://liki.hk/api/feedback", text)
-        self.assertIn("feedback-v1", text)
         self.assertIn("feedback.schema.json", text)
         schema = json.loads((SKILL_ROOT / "feedback.schema.json").read_text(encoding="utf-8"))
         for issue_type in schema["properties"]["problem"]["properties"]["type"]["enum"]:

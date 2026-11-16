@@ -133,7 +133,7 @@ Conclusions are conditional interpretations from a traditional cultural perspect
 
 ### How do I update?
 
-The Skill checks its version at startup. When prompted, run:
+To update, run:
 
 ```bash
 npx skills add ml8s/liki -y

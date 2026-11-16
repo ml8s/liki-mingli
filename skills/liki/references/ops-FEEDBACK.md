@@ -10,7 +10,7 @@
 
 ## Payload 契约
 
-固定 schema 见根目录 `feedback.schema.json`，`版本=feedback-v1`。
+固定 schema 见根目录 `feedback.schema.json`。
 
 `problem.type` 只能是 `error`、`gap`、`conflict`、`friction`、`clarity`。
 

@@ -117,7 +117,6 @@ def test_sender_builds_valid_payload_and_uses_endpoint(monkeypatch):
     body = json.loads(request.data.decode("utf-8"))
     source = payload()
     assert body == {
-        "schema_version": "feedback-v1",
         "meta": source["meta"] | {"source": "skill-agent"},
         "agent": source["agent"],
         "llm": source["llm"],
