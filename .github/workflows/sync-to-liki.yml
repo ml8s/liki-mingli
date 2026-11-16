@@ -10,13 +10,13 @@ jobs:
     if: ${{ contains(github.ref, 'refs/tags/') && match(github.ref, 'refs/tags/v\\d{4}\\.\\d{2}\\.\\d{2}\\.\\d{6}') }}
     steps:
       - name: Checkout liki‑mingli
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ml8s/liki-mingli
           path: liki-mingli
 
       - name: Checkout liki (target)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ml8s/liki
           path: liki
