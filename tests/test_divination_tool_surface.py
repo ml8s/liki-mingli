@@ -22,15 +22,6 @@ def _liuyao_event():
 
 def test_ask_schemas_accept_primary_calls():
     validate({"event": _liuyao_event()}, _SCHEMAS["liuyao_ask"])
-    # 旧事件仍可读：question/origin/focus 只作为历史兼容输入。
-    validate({"event": {
-        "casting": _liuyao_event()["casting"],
-        "casting_context": {
-            "standard_time": "2026-10-01T10:00:00+08:00",
-            "longitude": 116.4,
-            "focus": {"kind": "matter", "matter": "career"},
-        },
-    }}, _SCHEMAS["liuyao_ask"])
     for invalid_event in (
         {"casting": _liuyao_event()["casting"], "casting_context": {
             "standard_time": "2026-10-01T10:00:00+08:00",

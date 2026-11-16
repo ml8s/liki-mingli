@@ -35,7 +35,7 @@ class TestDeploymentGeneration(unittest.TestCase):
             with self.subTest(profile=profile):
                 deployment = self._deployment(profile)
                 self.assertNotIn("apiVersion", deployment)
-                self.assertEqual(deployment["schema_version"], "agent.deployment.v1")
+                self.assertNotIn("schema_version", deployment)
                 self.assertNotIn("kind", deployment)
                 self.assertEqual(deployment["metadata"]["name"], profile)
                 self.assertEqual(deployment["metadata"]["version"], build_id)
@@ -173,7 +173,7 @@ class TestDeploymentGeneration(unittest.TestCase):
         self.assertEqual(instruction, body)
         self.assertIn("内部档案同步", instruction)
         self.assertIn("sync_ui", instruction)
-        self.assertIn("MCP", instruction)
+        self.assertIn("standard_time", instruction)
 
     def test_single_expert_profile_is_the_only_release_profile(self):
         self.assertEqual(

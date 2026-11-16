@@ -32,7 +32,6 @@ def create(*, event: dict) -> dict:
     case = build_case(
         technique="liuyao",
         payload={
-            "case_version": "liuyao-case-v3",
             "event": event,
             "chart": projected["liuyao_chart"],
             "evidence": projected["evidence"],

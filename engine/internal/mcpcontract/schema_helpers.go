@@ -173,22 +173,3 @@ func withSchemaRequiredFields(raw json.RawMessage, fields ...string) (json.RawMe
 	document["required"] = existing
 	return json.Marshal(document)
 }
-
-// withSchemaEitherRequired requires exactly one of two optional properties.
-func withSchemaEitherRequired(raw json.RawMessage, first, second string) (json.RawMessage, error) {
-	var document map[string]any
-	if err := json.Unmarshal(raw, &document); err != nil {
-		return nil, err
-	}
-	document["oneOf"] = []any{
-		map[string]any{
-			"required":   []any{first},
-			"properties": map[string]any{first: map[string]any{"type": "string"}},
-		},
-		map[string]any{
-			"required":   []any{second},
-			"properties": map[string]any{second: map[string]any{"type": "object"}},
-		},
-	}
-	return json.Marshal(document)
-}

@@ -655,7 +655,6 @@ def main():
         "cities": cities,
         "world": world,
         "meta": {
-            "schema_version": 2,
             "generated_at": build_timestamp(),
             "sources": {
                 "china": "DataV.GeoAtlas areas_v3 (data/sources/datav)",

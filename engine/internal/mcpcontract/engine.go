@@ -351,7 +351,7 @@ func NewEngine() *Registry {
 	})
 	mustRegister(registry, Tool[LiuyaoChartInput, LiuyaoChartResultOutput]{
 		Name:         "liuyao_chart",
-		Description:  "六爻装卦。只消费 liuyao_qigua 返回的 event，读取 event.casting_context.yong_shen（旧事件可回退 focus），装卦并输出纳甲、六亲、六兽、旺衰、格局、应期与 analysis。本方法不创建卦象事件，也不输出解读。",
+		Description:  "六爻装卦。只消费 liuyao_qigua 返回的最小 event，读取 event.casting_context.yong_shen，装卦并输出纳甲、六亲、六兽、旺衰、格局、应期与 analysis。本方法不创建卦象事件，也不输出解读。",
 		InputSchema:  chartSchema,
 		OutputSchema: chartOutputSchema,
 		Handler:      LiuyaoChart,

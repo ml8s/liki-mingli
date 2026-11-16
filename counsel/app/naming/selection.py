@@ -1,8 +1,8 @@
 """Selected-yongshen driven character selection."""
 
-from app.naming.naming.loader import _char_by_element, _ensure_loaded
-from app.naming.naming.models import Character, SelectedYongshenPlan
-from app.naming.naming.wuxing import wuxing_from_chinese
+from app.naming.loader import _char_by_element, _ensure_loaded
+from app.naming.models import Character, SelectedYongshenPlan
+from app.naming.wuxing import wuxing_from_chinese
 from app.natal.tools.errors import LikiToolError
 
 PICK_ROLES = ("yong", "xi")

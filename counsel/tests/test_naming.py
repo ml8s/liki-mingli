@@ -4,8 +4,8 @@
 （data/naming_characters.csv）的输出，防止字库或算法漂移。
 """
 
+import app.naming as naming  # noqa: E402
 import pytest
-from app.naming import naming  # noqa: E402
 
 
 def selected_yongshen(yong="木", xi=None, ji=None):

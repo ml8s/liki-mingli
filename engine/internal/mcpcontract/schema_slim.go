@@ -10,7 +10,7 @@ import (
 
 // slimSchemaRaw applies semantics-preserving, publication-only compaction.
 // Runtime validation uses the derived schema tree and typed DTOs; the raw wire
-// schema is free to use nullable type arrays and shared enum definitions.
+// schema is free to use nullable type arrays and shared enum/object definitions.
 func slimSchemaRaw(raw json.RawMessage) (json.RawMessage, error) {
 	if len(raw) == 0 {
 		return raw, nil
@@ -105,6 +105,20 @@ func schemaTypeValue(value any) (string, bool) {
 		}
 	}
 	return "", false
+}
+
+func schemaIsObject(value map[string]any) bool {
+	switch kind := value["type"].(type) {
+	case string:
+		return kind == "object"
+	case []any:
+		for _, item := range kind {
+			if text, ok := item.(string); ok && text == "object" {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func hoistRepeatedEnums(schema map[string]any) error {
@@ -244,6 +258,17 @@ func hoistRepeatedObjects(schema map[string]any) {
 		}
 		hoistObjectSchemas(value, definitions, counts)
 	}
+	// The first pass may have collapsed an enclosing repeated object into a
+	// shared definition. Revisit definitions so repeated descendants inside
+	// that definition are shared too; definition-to-definition refs are valid
+	// local JSON Schema references.
+	if definitions, ok := schema["$defs"].(map[string]any); ok {
+		for _, definition := range definitions {
+			if object, ok := definition.(map[string]any); ok {
+				hoistObjectSchemas(object, definitions, counts)
+			}
+		}
+	}
 	if len(definitions) > 0 {
 		schema["$defs"] = definitions
 	}
@@ -252,15 +277,10 @@ func hoistRepeatedObjects(schema map[string]any) {
 func collectObjectSchemas(node any, counts map[string]int) {
 	switch value := node.(type) {
 	case map[string]any:
-		if kind, ok := value["type"].(string); ok && kind == "object" {
+		if schemaIsObject(value) {
 			if objectSchemaBytes(value) >= minObjectSchemaBytes {
 				counts[objectSchemaKey(value)]++
 			}
-			// A repeated object is published as one unit. Do not also count
-			// its descendants for replacement inside this unit; that keeps
-			// generated definitions self-contained and easier for clients to
-			// resolve conservatively.
-			return
 		}
 		for _, field := range value {
 			collectObjectSchemas(field, counts)
@@ -281,8 +301,7 @@ func hoistObjectSchemas(node any, definitions map[string]any, counts map[string]
 				hoistObjectSchemas(field, definitions, counts)
 				continue
 			}
-			kind, ok := object["type"].(string)
-			if !ok || kind != "object" {
+			if !schemaIsObject(object) {
 				hoistObjectSchemas(field, definitions, counts)
 				continue
 			}
@@ -315,7 +334,7 @@ func hoistObjectSchemas(node any, definitions map[string]any, counts map[string]
 	case []any:
 		for key, field := range value {
 			if object, ok := field.(map[string]any); ok {
-				if kind, exists := object["type"].(string); exists && kind == "object" {
+				if schemaIsObject(object) {
 					id := objectSchemaKey(object)
 					if counts[id] >= 2 && objectSchemaBytes(object) >= minObjectSchemaBytes {
 						name := "Object_" + id

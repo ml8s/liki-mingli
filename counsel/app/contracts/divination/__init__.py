@@ -1,4 +1,4 @@
-"""Backward-compatible public surface for divination contracts."""
+"""Public surface for divination contracts."""
 
 from .common import DivinationConflict, DivinationFollowupPolicy, DivinationSameMatterFollowupPolicy
 from .liuyao import *  # noqa: F401,F403

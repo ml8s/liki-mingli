@@ -1,4 +1,4 @@
-"""Latin/pinyin compatibility helpers."""
+"""Latin/pinyin normalization helpers."""
 
 import unicodedata
 

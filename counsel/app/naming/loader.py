@@ -4,11 +4,11 @@ import csv
 import threading
 from pathlib import Path
 
-from app.naming.naming.models import Character, SurnameRecord
-from app.naming.naming.pinyin import fold_latin, is_latin_lower, tone_from_pinyin
+from app.naming.models import Character, SurnameRecord
+from app.naming.pinyin import fold_latin, is_latin_lower, tone_from_pinyin
 from app.natal.tools.errors import LikiToolError
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
 # -- 数据加载（模块级只读，进程内一次） -------------------------------------
 

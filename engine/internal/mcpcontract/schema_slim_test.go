@@ -139,3 +139,100 @@ func TestSlimSchemaRawSharesRepeatedObjects(t *testing.T) {
 		t.Fatalf("shared object definition = %#v", definition)
 	}
 }
+
+func TestSlimSchemaRawSharesRepeatedObjectsInsideUniqueEnvelope(t *testing.T) {
+	raw := json.RawMessage(`{
+		"type":"object",
+		"properties":{
+			"container":{
+				"type":"object",
+				"additionalProperties":false,
+				"required":["a","b","unique"],
+				"properties":{
+					"a":{
+						"type":"array",
+						"items":{"type":"object","required":["name","kind","value"],"properties":{"name":{"type":"string","description":"名称。"},"kind":{"type":"string","description":"类型。"},"value":{"type":"string","description":"值。"}}}
+					},
+					"b":{
+						"type":"array",
+						"items":{"type":"object","required":["name","kind","value"],"properties":{"name":{"type":"string","description":"名称。"},"kind":{"type":"string","description":"类型。"},"value":{"type":"string","description":"值。"}}}
+					},
+					"unique":{"type":"string"}
+				}
+			}
+		}
+	}`)
+	slimmed, err := slimSchemaRaw(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var schema struct {
+		Properties struct {
+			Container struct {
+				Properties struct {
+					A struct {
+						Items map[string]any `json:"items"`
+					} `json:"a"`
+					B struct {
+						Items map[string]any `json:"items"`
+					} `json:"b"`
+				} `json:"properties"`
+			} `json:"container"`
+		} `json:"properties"`
+		Defs map[string]any `json:"$defs"`
+	}
+	if err := json.Unmarshal(slimmed, &schema); err != nil {
+		t.Fatal(err)
+	}
+	aRef, ok := schema.Properties.Container.Properties.A.Items["$ref"].(string)
+	if !ok || !strings.HasPrefix(aRef, "#/$defs/Object_") {
+		t.Fatalf("nested a items ref = %#v, want shared object ref", schema.Properties.Container.Properties.A.Items)
+	}
+	if schema.Properties.Container.Properties.B.Items["$ref"] != aRef {
+		t.Fatalf("nested b items ref = %#v, want %q", schema.Properties.Container.Properties.B.Items, aRef)
+	}
+	if len(schema.Defs) != 1 {
+		t.Fatalf("definitions = %d, want 1", len(schema.Defs))
+	}
+}
+
+func TestSlimSchemaRawSharesRepeatedNullableObjects(t *testing.T) {
+	item := `{"type":["null","object"],"required":["west","east"],"properties":{"west":{"type":"number","description":"西界经度。"},"east":{"type":"number","description":"东界经度。"}}}`
+	raw := json.RawMessage(`{
+		"type":"object",
+		"properties":{
+			"a":{"type":["null","array"],"items":` + item + `},
+			"b":{"type":["null","array"],"items":` + item + `}
+		}
+	}`)
+	slimmed, err := slimSchemaRaw(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var schema map[string]any
+	if err := json.Unmarshal(slimmed, &schema); err != nil {
+		t.Fatal(err)
+	}
+	properties := schema["properties"].(map[string]any)
+	a := properties["a"].(map[string]any)
+	b := properties["b"].(map[string]any)
+	items := a["items"].(map[string]any)
+	bItems := b["items"].(map[string]any)
+	aRef, ok := items["$ref"].(string)
+	if !ok || !strings.HasPrefix(aRef, "#/$defs/Object_") {
+		t.Fatalf("nullable a items ref = %#v, want shared object ref", items)
+	}
+	if bItems["$ref"] != aRef {
+		t.Fatalf("nullable b items ref = %#v, want %q", bItems, aRef)
+	}
+	definitions := schema["$defs"].(map[string]any)
+	parts := strings.Split(aRef, "/")
+	definition := definitions[parts[len(parts)-1]].(map[string]any)
+	if !ok {
+		t.Fatalf("definition %q missing or not an object; defs=%v, aRef=%s", parts[len(parts)-1], schema["$defs"], aRef)
+	}
+	types, ok := definition["type"].([]any)
+	if !ok || len(types) != 2 || types[0] != "null" || types[1] != "object" {
+		t.Fatalf("nullable definition type = %#v", definition["type"])
+	}
+}

@@ -29,7 +29,7 @@ def test_only_production_expert_profiles_are_released():
     assert not (ROOT / "distribution/single_expert").exists()
 
 
-def test_deployment_generator_emits_contract_version():
+def test_deployment_generator_has_no_contract_version():
     import subprocess
     import tempfile
 
@@ -48,4 +48,4 @@ def test_deployment_generator_emits_contract_version():
             check=True,
         )
         deployment = json.loads((output / "deployment.json").read_text())
-    assert deployment["schema_version"] == "agent.deployment.v1"
+    assert "schema_version" not in deployment

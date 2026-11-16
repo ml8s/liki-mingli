@@ -21,6 +21,9 @@ T = TypeVar("T")
 
 #: JSON Schema keyword Pydantic does not project on its own.
 _UNIQUE_ITEMS = "uniqueItems"
+# Reader-facing metadata can remain beside a `$ref` so the field still explains
+# itself without requiring the client to dereference the shared definition.
+_REF_READER_METADATA = {"description", "title", "default", "examples"}
 _UNSET = object()
 
 
@@ -47,8 +50,10 @@ def _reject_duplicates(values: list[Any]) -> list[Any]:
 unique_list = Annotated[list[T], UniqueItems(), AfterValidator(_reject_duplicates)]
 
 
-def _inline_refs(node: Any, defs: dict[str, Any], active: frozenset[str] = frozenset()) -> Any:
-    """Inline ``$defs`` references so the published schema stays a flat document."""
+def _inline_refs(
+    node: Any, defs: dict[str, Any], active: frozenset[str] = frozenset()
+) -> Any:
+    """Inline implementation model refs before publication-only compaction."""
     if isinstance(node, dict):
         ref = node.get("$ref")
         if isinstance(ref, str) and ref.startswith("#/$defs/"):
@@ -163,12 +168,73 @@ def _hoist_enum_schemas(
     return node
 
 
+def _object_schema_key(schema: dict[str, Any]) -> str | None:
+    """Return the identity of an object schema, ignoring field-site metadata."""
+    comparable = {
+        key: value for key, value in schema.items() if key not in _REF_READER_METADATA
+    }
+    if comparable.get("type") != "object":
+        return None
+    return _schema_key(comparable)
+
+
+def _collect_object_schemas(
+    node: Any,
+    path: str,
+    counts: dict[str, list[tuple[str, dict[str, Any]]]],
+) -> None:
+    if not isinstance(node, dict):
+        return
+    key = _object_schema_key(node)
+    if key is not None:
+        counts.setdefault(key, []).append((path, node))
+    for child_key, value in node.items():
+        if isinstance(value, dict):
+            _collect_object_schemas(value, f"{path}.{child_key}", counts)
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                _collect_object_schemas(item, f"{path}[{index}]", counts)
+
+
+def _hoist_object_schemas(
+    node: Any,
+    definitions: dict[str, Any],
+    selected: dict[str, list[str]],
+    path: str = "$",
+) -> Any:
+    """Replace repeated object schemas with shared, resolvable ``$defs``."""
+    if not isinstance(node, (dict, list)):
+        return node
+    key = _object_schema_key(node) if isinstance(node, dict) else None
+    if key in selected:
+        if key not in definitions:
+            definitions[key] = {
+                definition_key: definition_value
+                for definition_key, definition_value in node.items()
+                if definition_key not in _REF_READER_METADATA
+            }
+        ref: dict[str, Any] = {"$ref": f"#/$defs/{key}"}
+        for metadata_key in _REF_READER_METADATA:
+            if metadata_key in node:
+                ref[metadata_key] = node[metadata_key]
+        return ref
+    if isinstance(node, list):
+        return [
+            _hoist_object_schemas(value, definitions, selected, f"{path}[{index}]")
+            for index, value in enumerate(node)
+        ]
+    return {
+        node_key: _hoist_object_schemas(value, definitions, selected, f"{path}.{node_key}")
+        for node_key, value in node.items()
+    }
+
+
 def _slim_published_schema(schema: dict[str, Any]) -> dict[str, Any]:
     """Apply semantics-preserving publication compaction to a flat schema.
 
     Runtime validation is owned by the Pydantic models; this only compactly
-    represents the same JSON Schema. Repeated enum schemas are shared through
-    ``$defs`` while field descriptions remain at the field site.
+    represents the same JSON Schema. Repeated enum and object schemas are shared
+    through ``$defs`` while field descriptions remain at the field site.
     """
     _normalize_nullable_any_of(schema)
     counts: dict[str, int] = {}
@@ -176,6 +242,36 @@ def _slim_published_schema(schema: dict[str, Any]) -> dict[str, Any]:
     existing = schema.pop("$defs", {})
     definitions = dict(existing)
     slim = _hoist_enum_schemas(schema, definitions, counts)
+    object_counts: dict[str, list[tuple[str, dict[str, Any]]]] = {}
+    _collect_object_schemas(slim, "$", object_counts)
+    candidates = []
+    for object_key, occurrences in object_counts.items():
+        unique_bytes = len(
+            json.dumps(
+                occurrences[0][1], ensure_ascii=False, separators=(",", ":")
+            ).encode()
+        )
+        saved_bytes = unique_bytes * (len(occurrences) - 1)
+        if unique_bytes >= 512 and saved_bytes >= 512:
+            candidates.append((saved_bytes, object_key, occurrences))
+    candidates.sort(reverse=True, key=lambda item: item[0])
+    selected: dict[str, list[str]] = {}
+    for _, object_key, occurrences in candidates:
+        paths = [path for path, _ in occurrences]
+        # A nested repetition is already removed when its enclosing repeated
+        # object is shared; selecting both would make the replacement pass miss
+        # the nested key inside the generated definition.
+        if any(
+            any(
+                path == selected_path or path.startswith(f"{selected_path}.")
+                for selected_path in selected_paths
+            )
+            for selected_paths in selected.values()
+            for path in paths
+        ):
+            continue
+        selected[object_key] = paths
+    slim = _hoist_object_schemas(slim, definitions, selected)
     if definitions:
         slim["$defs"] = definitions
     return slim

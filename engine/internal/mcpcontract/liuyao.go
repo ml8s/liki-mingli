@@ -189,21 +189,16 @@ type LiuyaoCastingEvent struct {
 	CastingContext LiuyaoCastingContext `json:"casting_context" jsonschema:"起卦地标准时间、经度与解析出的用神。"`
 }
 
-// LiuyaoCastingEventInput accepts both the canonical minimal event and legacy
-// events that still carry question/origin/focus. Legacy fields are normalized
-// away before chart/ask logic runs.
+// LiuyaoCastingEventInput is the canonical minimal event created by qigua.
 type LiuyaoCastingEventInput struct {
-	Question       string                          `json:"question,omitempty" jsonschema:"旧事件兼容字段；新事件不携带。"`
-	Origin         *LiuyaoCastingRequestInput      `json:"origin,omitempty" jsonschema:"旧事件兼容字段；新事件不携带。"`
-	Casting        LiuyaoCastingOutput             `json:"casting" jsonschema:"一次起卦的完整源事实。"`
-	CastingContext LiuyaoCastingContextInputCompat `json:"casting_context" jsonschema:"起卦地标准时间、经度与用神或旧版焦点。"`
+	Casting        LiuyaoCastingOutput            `json:"casting" jsonschema:"一次起卦的完整源事实。"`
+	CastingContext LiuyaoCastingContextEventInput `json:"casting_context" jsonschema:"起卦地标准时间、经度与解析出的用神。"`
 }
 
-type LiuyaoCastingContextInputCompat struct {
-	StandardTime StandardTime      `json:"standard_time" jsonschema:"起卦地标准时间（无 DST），RFC3339 带 offset。"`
-	Longitude    Longitude         `json:"longitude" jsonschema:"起卦地经度（-180..180）；真太阳时校正用于时辰。"`
-	Focus        *LiuyaoFocusInput `json:"focus,omitempty" jsonschema:"旧事件兼容字段；新事件不携带。"`
-	YongShen     string            `json:"yong_shen,omitempty" jsonschema:"起卦时解析出的用神；新事件必填。"`
+type LiuyaoCastingContextEventInput struct {
+	StandardTime StandardTime       `json:"standard_time" jsonschema:"起卦地标准时间（无 DST），RFC3339 带 offset。"`
+	Longitude    Longitude          `json:"longitude" jsonschema:"起卦地经度（-180..180）；真太阳时校正用于时辰。"`
+	YongShen     LiuyaoYongShenName `json:"yong_shen" jsonschema:"起卦时解析出的用神；chart/ask 唯一取用依据。"`
 }
 
 func liuyaoMatterFocusSchema(options *jsonschema.ForOptions) (json.RawMessage, error) {
@@ -274,19 +269,6 @@ func liuyaoOriginBranchSchema(options *jsonschema.ForOptions, mode string) (json
 	return withSchemaConst(raw, "mode", mode)
 }
 
-func liuyaoOriginSchema(options *jsonschema.ForOptions) (json.RawMessage, error) {
-	modes := []string{"auto", "coins", "yaos"}
-	branches := make([]json.RawMessage, 0, len(modes))
-	for _, mode := range modes {
-		branch, err := liuyaoOriginBranchSchema(options, mode)
-		if err != nil {
-			return nil, err
-		}
-		branches = append(branches, branch)
-	}
-	return json.Marshal(map[string]any{"oneOf": branches})
-}
-
 func patchLiuyaoEvent(event map[string]any, options *jsonschema.ForOptions) (map[string]any, error) {
 	raw, err := json.Marshal(event)
 	if err != nil {
@@ -320,14 +302,6 @@ func patchLiuyaoEventInput(event map[string]any, options *jsonschema.ForOptions)
 	if err != nil {
 		return nil, err
 	}
-	origin, err := liuyaoOriginSchema(options)
-	if err != nil {
-		return nil, err
-	}
-	raw, err = withSchemaProperty(raw, "origin", origin)
-	if err != nil {
-		return nil, err
-	}
 	casting, err := liuyaoCastingReceiptSchema(options)
 	if err != nil {
 		return nil, err
@@ -336,7 +310,7 @@ func patchLiuyaoEventInput(event map[string]any, options *jsonschema.ForOptions)
 	if err != nil {
 		return nil, err
 	}
-	context, err := liuyaoEventInputCastingContextSchema(options)
+	_, context, err := inputSchemaFor[LiuyaoCastingContextEventInput](options)
 	if err != nil {
 		return nil, err
 	}
@@ -421,22 +395,6 @@ func liuyaoEventCastingContextSchema(options *jsonschema.ForOptions) (json.RawMe
 		return nil, err
 	}
 	return raw, nil
-}
-
-func liuyaoEventInputCastingContextSchema(options *jsonschema.ForOptions) (json.RawMessage, error) {
-	_, raw, err := inputSchemaFor[LiuyaoCastingContextInputCompat](options)
-	if err != nil {
-		return nil, err
-	}
-	focus, err := liuyaoFocusSchema(options)
-	if err != nil {
-		return nil, err
-	}
-	raw, err = withSchemaProperty(raw, "focus", focus)
-	if err != nil {
-		return nil, err
-	}
-	return withSchemaEitherRequired(raw, "yong_shen", "focus")
 }
 
 func liuyaoCastingReceiptSchema(options *jsonschema.ForOptions) (json.RawMessage, error) {
@@ -758,25 +716,6 @@ func liuyaoResolveFocus(focus LiuyaoFocusInput) (LiuyaoYongShenName, error) {
 	}
 }
 
-// liuyaoEventYongShen reads the resolved yong_shen from the event. The focus
-// fallback exists only so pre-upgrade events remain consumable; new events
-// written by liuyao_qigua always carry yong_shen and never carry focus.
-func liuyaoEventYongShen(ctx LiuyaoCastingContextInputCompat) (LiuyaoYongShenName, error) {
-	if ctx.YongShen != "" {
-		if ctx.Focus != nil {
-			return "", fmt.Errorf("casting_context cannot carry both yong_shen and focus")
-		}
-		if _, err := liuyao.ParseYongShen(ctx.YongShen); err != nil {
-			return "", fmt.Errorf("invalid yong_shen: %w", err)
-		}
-		return LiuyaoYongShenName(ctx.YongShen), nil
-	}
-	if ctx.Focus == nil {
-		return "", fmt.Errorf("casting_context.yong_shen is required")
-	}
-	return liuyaoResolveFocus(*ctx.Focus)
-}
-
 type LiuyaoAnalysisOutput struct {
 	TimingCandidates      []LiuyaoTimingOutput               `json:"timing_candidates,omitempty" jsonschema:"应期候选。"`
 	DongYaoRelations      []LiuyaoDongRelationOutput         `json:"dong_yao_relations,omitempty" jsonschema:"动爻与用神/原神/忌神关系。"`
@@ -931,59 +870,18 @@ func LiuyaoQigua(_ context.Context, input LiuyaoQiguaInput) (LiuyaoQiguaOutput, 
 	}}, nil
 }
 
-// LiuyaoChartInput consumes the immutable casting event created by liuyao_qigua.
-// The input type tolerates legacy events (question/origin/focus), while new
-// events are normalized to the minimal canonical shape before use.
+// LiuyaoChartInput consumes the immutable minimal event created by liuyao_qigua.
 type LiuyaoChartInput struct {
 	Event *LiuyaoCastingEventInput `json:"event" jsonschema:"liuyao_qigua 返回的不可变卦象事件。"`
-}
-
-func validateLiuyaoEventOrigin(origin *LiuyaoCastingRequestInput, casting LiuyaoCastingOutput) error {
-	if origin == nil {
-		return nil
-	}
-	switch origin.Mode {
-	case "auto":
-		if origin.Rounds != nil || origin.Yaos != nil {
-			return fmt.Errorf("auto origin does not accept rounds or yaos")
-		}
-		if casting.Mode != "coins" {
-			return fmt.Errorf("auto origin requires a coins casting receipt")
-		}
-	case "coins":
-		if origin.Yaos != nil || len(origin.Rounds) != 6 {
-			return fmt.Errorf("coins origin requires exactly 6 rounds and no yaos")
-		}
-		if casting.Mode != "coins" {
-			return fmt.Errorf("coins origin requires a coins casting receipt")
-		}
-	case "yaos":
-		if origin.Rounds != nil || len(origin.Yaos) != 6 {
-			return fmt.Errorf("yaos origin requires exactly 6 yaos and no rounds")
-		}
-		if casting.Mode != "yaos" {
-			return fmt.Errorf("yaos origin requires a yaos casting receipt")
-		}
-	default:
-		return fmt.Errorf("unsupported origin mode %q", string(origin.Mode))
-	}
-	return nil
 }
 
 func LiuyaoChart(_ context.Context, input LiuyaoChartInput) (LiuyaoChartResultOutput, error) {
 	if input.Event == nil {
 		return LiuyaoChartResultOutput{}, fmt.Errorf("liuyao.chart: event is required")
 	}
-	if err := validateLiuyaoEventOrigin(input.Event.Origin, input.Event.Casting); err != nil {
-		return LiuyaoChartResultOutput{}, fmt.Errorf("liuyao.chart: invalid event origin: %w", err)
-	}
 	casting, err := liuyaoCastingDomain(input.Event.Casting)
 	if err != nil {
 		return LiuyaoChartResultOutput{}, fmt.Errorf("liuyao.chart: invalid casting: %w", err)
-	}
-	yongShen, err := liuyaoEventYongShen(input.Event.CastingContext)
-	if err != nil {
-		return LiuyaoChartResultOutput{}, fmt.Errorf("liuyao.chart: %w", err)
 	}
 	standard, _, err := parseStandardTime(input.Event.CastingContext.StandardTime)
 	if err != nil {
@@ -992,7 +890,7 @@ func LiuyaoChart(_ context.Context, input LiuyaoChartInput) (LiuyaoChartResultOu
 	if float64(input.Event.CastingContext.Longitude) < -180 || float64(input.Event.CastingContext.Longitude) > 180 {
 		return LiuyaoChartResultOutput{}, fmt.Errorf("liuyao.chart: longitude must be within [-180,180], got %v", float64(input.Event.CastingContext.Longitude))
 	}
-	ys, err := liuyao.ParseYongShen(string(yongShen))
+	ys, err := liuyao.ParseYongShen(string(input.Event.CastingContext.YongShen))
 	if err != nil {
 		return LiuyaoChartResultOutput{}, fmt.Errorf("liuyao.chart: %w", err)
 	}
@@ -1005,7 +903,7 @@ func LiuyaoChart(_ context.Context, input LiuyaoChartInput) (LiuyaoChartResultOu
 			CastingContext: LiuyaoCastingContext{
 				StandardTime: input.Event.CastingContext.StandardTime,
 				Longitude:    input.Event.CastingContext.Longitude,
-				YongShen:     yongShen,
+				YongShen:     input.Event.CastingContext.YongShen,
 			},
 		},
 		Chart: view,

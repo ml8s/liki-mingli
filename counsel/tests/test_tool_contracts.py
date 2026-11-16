@@ -116,6 +116,29 @@ def test_published_schema_shared_refs_resolve_locally(name):
             assert ref.rsplit("/", 1)[-1] in definitions
 
 
+@pytest.mark.parametrize("name", ("natal_query", "natal_liunian_query"))
+def test_repeated_natal_side_schemas_share_one_definition(name):
+    """The bazi/ziwei projection is semantically one schema, not two inline copies."""
+    output = CONTRACTS[name].output_schema
+    if name == "natal_query":
+        branches = [output["properties"]]
+    else:
+        branches = [
+            branch["properties"]
+            for branch in output["properties"]["years"]["items"]["anyOf"]
+            if "bazi" in branch.get("properties", {})
+        ]
+    refs = set()
+    for properties in branches:
+        bazi = properties["bazi"]
+        ziwei = properties["ziwei"]
+        assert bazi["$ref"] == ziwei["$ref"]
+        assert bazi["$ref"].startswith("#/$defs/")
+        refs.add(bazi["$ref"])
+    assert len(refs) == 1
+    assert next(iter(refs)).rsplit("/", 1)[-1] in output["$defs"]
+
+
 def test_unique_items_is_projected_and_enforced():
     focus_branches = CONTRACTS["qimen_ask"].input_schema["properties"]["focus"]["anyOf"]
     qimen_yongshen = next(

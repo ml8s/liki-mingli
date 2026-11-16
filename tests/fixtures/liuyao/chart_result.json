@@ -461,18 +461,6 @@
     }
   },
   "event": {
-    "question": "测试这次事业能不能推进",
-    "origin": {
-      "mode": "yaos",
-      "yaos": [
-        7,
-        8,
-        7,
-        8,
-        7,
-        8
-      ]
-    },
     "casting": {
       "mode": "yaos",
       "order": "bottom_up",
@@ -489,10 +477,7 @@
     "casting_context": {
       "standard_time": "2026-10-01T10:00:00+08:00",
       "longitude": 116.4,
-      "focus": {
-        "kind": "matter",
-        "matter": "career"
-      }
+      "yong_shen": "官鬼"
     }
   }
 }

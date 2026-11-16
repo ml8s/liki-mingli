@@ -2,6 +2,7 @@ package mcpcontract
 
 import (
 	"encoding/json"
+	"strings"
 	"testing"
 )
 
@@ -71,7 +72,27 @@ func TestTimeInputsCanonical(t *testing.T) {
 						Type string `json:"type"`
 					} `json:"properties"`
 				}
-				if err := json.Unmarshal(branch.Properties["subject"], &subject); err != nil {
+				subjectRaw := branch.Properties["subject"]
+				var ref struct {
+					Ref string `json:"$ref"`
+				}
+				if err := json.Unmarshal(subjectRaw, &ref); err != nil {
+					t.Fatal(err)
+				}
+				if ref.Ref != "" {
+					var defs struct {
+						Definitions map[string]json.RawMessage `json:"$defs"`
+					}
+					if err := json.Unmarshal(def.InputSchema, &defs); err != nil {
+						t.Fatal(err)
+					}
+					definition, ok := defs.Definitions[strings.TrimPrefix(ref.Ref, "#/$defs/")]
+					if !ok {
+						t.Fatalf("subject ref does not resolve: %s", ref.Ref)
+					}
+					subjectRaw = definition
+				}
+				if err := json.Unmarshal(subjectRaw, &subject); err != nil {
 					t.Fatal(err)
 				}
 				for _, field := range []string{"standard_time", "longitude", "gender"} {

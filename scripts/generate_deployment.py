@@ -276,7 +276,6 @@ def main() -> int:
         for profile_agent in profile["agents"]
     ]
     deployment = {
-        "schema_version": "agent.deployment.v1",
         "metadata": metadata,
         "spec": {
             "mcpServers": profile["mcpServers"],

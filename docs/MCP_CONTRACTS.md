@@ -109,7 +109,7 @@ Rules:
 - time-series `count` inputs use `SeriesCount`, publishing the same
   `[1, MaxSeriesCount]` bounds that runtime validation enforces; omitted count means one item and explicit zero is invalid;
 - output schemas validate actual JSON in contract tests and diagnostic tooling;
-- wire DTOs do not publish `schema_version` or `contract_version` fields;
+- wire DTOs do not publish version envelope fields (`*_version`);
 - output fields are required unless explicitly modeled as optional;
 - tools are registered in deterministic order;
 - business failures become MCP tool errors, not private RPC envelopes;
@@ -156,10 +156,13 @@ Rules:
   enforces it for required fields and enum fields through the schema budget lint;
 - `extra="forbid"` closes input objects (`additionalProperties: false`), while
   output objects stay open so new fields do not fail old clients;
-- Pydantic wire models do not publish `schema_version` or `contract_version`;
+- Pydantic wire models do not publish version envelope fields (`*_version`);
+- skill methodology cards must not duplicate MCP discovery or wire schemas; they
+  own routing, domain rules, and interpretation;
 - `unique_list[T]` restores `uniqueItems: true`, which Pydantic does not project
   on its own;
-- `$defs` are inlined, so a published schema stays a flat document;
+- exact repeated enums and large object schemas are shared through `$defs`,
+  while implementation-only model references are inlined before publication;
 - cohesive variants use typed union branches; remaining cross-field rules that
   Pydantic cannot project live in `@model_validator(mode="after")`.
 

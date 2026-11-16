@@ -128,7 +128,7 @@ def _check_schema(schema: dict, *, where: str, errors: list[str], is_output: boo
     for name, prop in properties.items():
         if not isinstance(prop, dict):
             continue
-        if name in {"schema_version", "contract_version"}:
+        if name.endswith("_version"):
             errors.append(f"{where}: wire contracts must not publish {name!r}")
         if "enum" in prop and not prop.get("description"):
             errors.append(f"{where}: enum field {name!r} has no description")

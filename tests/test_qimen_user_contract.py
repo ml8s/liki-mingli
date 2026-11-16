@@ -19,8 +19,8 @@ def _zhuanzhan_shared_boundary() -> str:
 
 def test_qimen_card_keeps_normal_users_on_default_chart() -> None:
     text = CARD.read_text(encoding="utf-8")
-    assert "按当前 schema 声明的默认方式调用" in text
-    assert "schema 若表达 default，就使用 default" in text
+    assert "不臆造高级参数" in text
+    assert "仍无法判定时询问用户" in text
     assert "不能从“更细”“传统”“准确”推断高级方法" in text
 
 
@@ -39,14 +39,14 @@ def test_qimen_card_documents_user_phrases_and_defaults() -> None:
 def test_qimen_card_guides_matter_selection() -> None:
     text = CARD.read_text(encoding="utf-8")
     assert "普通问事（事项用神）" in text
-    assert "普通问事用事项用神（契约 二选一）" in text
-    assert "显式用神" in text
-    assert "按当前 schema 声明的默认方式调用" in text
+    assert "普通问事用事项用神" in text
+    assert "显式指定用神" in text
+    assert "不臆造高级参数" in text
 
 
-def test_quarter_domain_defers_public_axes_to_schema() -> None:
+def test_quarter_domain_defers_public_axes_to_tool_return() -> None:
     text = QUARTER.read_text(encoding="utf-8")
-    assert "可选方法与边界参数以 MCP 契约 为准" in text
+    assert "可选方法与边界以工具返回为准" in text
     for name in ("base_dingju_method", "dun_source", "hour_boundary"):
         assert name not in text
     assert "Horosa" not in text

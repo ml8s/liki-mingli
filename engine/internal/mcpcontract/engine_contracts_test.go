@@ -335,7 +335,7 @@ func assertSchemaPropertiesSelfDescribe(t *testing.T, name string, schema map[st
 		if !ok {
 			t.Fatalf("%s.%s: property is not an object", name, field)
 		}
-		if field == "schema_version" || field == "contract_version" {
+		if strings.HasSuffix(field, "_version") {
 			t.Errorf("%s.%s: wire contracts must not publish a version field", name, field)
 		}
 		if property["description"] == "" {

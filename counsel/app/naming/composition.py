@@ -1,7 +1,7 @@
 """Candidate composition and character lookup."""
 
-from app.naming.naming.loader import _char_by_char, _ensure_loaded, _negative_chars
-from app.naming.naming.models import Character, NamingCharacterFact
+from app.naming.loader import _char_by_char, _ensure_loaded, _negative_chars
+from app.naming.models import Character, NamingCharacterFact
 from app.natal.tools.errors import LikiToolError
 
 COMPOSE_DEFAULT_NAMES = 100

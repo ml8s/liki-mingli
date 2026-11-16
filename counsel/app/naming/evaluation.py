@@ -1,7 +1,7 @@
 """Name evaluation pipeline."""
 
-from app.naming.naming.loader import _char_by_char, _ensure_loaded, _negative_chars
-from app.naming.naming.models import (
+from app.naming.loader import _char_by_char, _ensure_loaded, _negative_chars
+from app.naming.models import (
     Character,
     NamingCharacterFact,
     NamingConstraints,
@@ -9,7 +9,7 @@ from app.naming.naming.models import (
     NamingEvaluation,
     SelectedYongshenPlan,
 )
-from app.naming.naming.selection import _normalize_selected_yongshen
+from app.naming.selection import _normalize_selected_yongshen
 from app.natal.tools.errors import LikiToolError
 
 

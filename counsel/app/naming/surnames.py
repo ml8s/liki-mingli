@@ -2,9 +2,9 @@
 
 import unicodedata
 
-from app.naming.naming.loader import _ensure_loaded, _surname_records
-from app.naming.naming.models import SurnameRecord
-from app.naming.naming.pinyin import first_vowel, fold_latin, is_latin_lower, tone_from_pinyin
+from app.naming.loader import _ensure_loaded, _surname_records
+from app.naming.models import SurnameRecord
+from app.naming.pinyin import first_vowel, fold_latin, is_latin_lower, tone_from_pinyin
 
 MATCH_PINYIN_EXACT = "pinyin_exact"
 MATCH_ROMANIZATION_EXACT = "romanization_exact"

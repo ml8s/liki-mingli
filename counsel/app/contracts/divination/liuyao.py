@@ -2,132 +2,13 @@
 
 from typing import Annotated, Literal
 
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field
 
 from app.contracts.divination.common import DivinationConflict
 from app.contracts.schema import ToolContract
 
-LiuyaoMatter = Literal[
-    "self", "other", "relationship", "parents", "children", "siblings",
-    "wealth", "career", "study", "health", "legal", "home", "travel", "lost_item",
-]
-LIUYAO_MATTER_NAMES = [
-    "self", "other", "parents", "children", "siblings",
-    "wealth", "career", "study", "health", "legal", "home", "travel", "lost_item",
-]
 LIUYAO_YONGSHEN_NAMES = ["父母", "兄弟", "官鬼", "妻财", "子孙", "世爻", "应爻"]
 
-
-class LiuyaoMatterFocus(BaseModel):
-    """按问事类别推导用神；relationship 必须带问卦人性别。"""
-    model_config = ConfigDict(extra="forbid")
-    kind: Literal["matter"] = Field(description="焦点类型：问事类别。")
-    matter: LiuyaoMatter = Field(description="问事类别；决定用神。")
-    perspective: Literal["male", "female"] | None = Field(
-        default=None,
-        description="仅 relationship 使用：问卦人性别，male 男占女，female 女占男。",
-    )
-
-    @model_validator(mode="after")
-    def _perspective_matches_matter(self) -> "LiuyaoMatterFocus":
-        if self.matter == "relationship" and self.perspective is None:
-            raise ValueError("relationship matter requires perspective=male/female")
-        if self.matter != "relationship" and self.perspective is not None:
-            raise ValueError("perspective is only valid for relationship")
-        return self
-
-
-class LiuyaoYongshenFocus(BaseModel):
-    """使用显式六亲用神；用于同性/非二元关系等无法由类别唯一取用的场景。"""
-    model_config = ConfigDict(extra="forbid")
-    kind: Literal["yong_shen"] = Field(description="焦点类型：显式用神。")
-    yong_shen: Literal["父母", "兄弟", "官鬼", "妻财", "子孙", "世爻", "应爻"] = Field(
-        description="高级显式用神。",
-    )
-
-
-LiuyaoFocus = LiuyaoMatterFocus | LiuyaoYongshenFocus
-
-
-class LiuyaoAutoOrigin(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    mode: Literal["auto"] = Field(description="安全随机起卦。")
-
-
-class LiuyaoCoinsOrigin(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    mode: Literal["coins"] = Field(description="铜钱记录起卦。")
-    rounds: Annotated[
-        list[Annotated[list[Literal["正", "反"]], Field(min_length=3, max_length=3)]],
-        Field(min_length=6, max_length=6),
-    ] = Field(description="六组三枚正/反，顺序为初爻到上爻。")
-
-
-class LiuyaoYaosOrigin(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    mode: Literal["yaos"] = Field(description="爻值起卦。")
-    yaos: Annotated[
-        list[Annotated[int, Field(ge=6, le=9)]],
-        Field(min_length=6, max_length=6),
-    ] = Field(description="六个爻值 6-9，初爻到上爻。")
-
-
-LiuyaoOrigin = LiuyaoAutoOrigin | LiuyaoCoinsOrigin | LiuyaoYaosOrigin
-
-
-def _liuyao_context_schema_extra(schema: dict) -> None:
-    """Project focus discriminators and relationship perspective rules to JSON Schema."""
-    matter_names = LIUYAO_MATTER_NAMES
-    focus = {
-        "oneOf": [
-            {
-                "additionalProperties": False,
-                "properties": {
-                    "kind": {"const": "matter", "description": "焦点类型：问事类别。", "type": "string"},
-                    "matter": {
-                        "description": "问事类别；决定用神。",
-                        "enum": matter_names,
-                        "type": "string",
-                    },
-                },
-                "required": ["kind", "matter"],
-                "type": "object",
-            },
-            {
-                "additionalProperties": False,
-                "properties": {
-                    "kind": {"const": "matter", "description": "焦点类型：问事类别。", "type": "string"},
-                    "matter": {"const": "relationship", "description": "问事类别。", "type": "string"},
-                    "perspective": {
-                        "description": "问卦人性别视角；matter=relationship 必填。",
-                        "enum": ["male", "female"],
-                        "type": "string",
-                    },
-                },
-                "required": ["kind", "matter", "perspective"],
-                "type": "object",
-            },
-            {
-                "additionalProperties": False,
-                "properties": {
-                    "kind": {"const": "yong_shen", "description": "焦点类型：显式用神。", "type": "string"},
-                    "yong_shen": {
-                        "description": "高级显式用神。",
-                        "enum": LIUYAO_YONGSHEN_NAMES,
-                        "type": "string",
-                    },
-                },
-                "required": ["kind", "yong_shen"],
-                "type": "object",
-            },
-        ],
-        "description": "占问焦点；起卦时确定性解析为用神。",
-    }
-    schema.setdefault("properties", {})["focus"] = focus
-    schema["oneOf"] = [
-        {"required": ["yong_shen"], "properties": {"yong_shen": {"type": "string"}}},
-        {"required": ["focus"], "properties": {"focus": {"type": "object"}}},
-    ]
 
 class LiuyaoCastingRoundsItem(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -180,68 +61,28 @@ LiuyaoCasting = LiuyaoCoinsCastingReceipt | LiuyaoYaosCastingReceipt
 
 
 class LiuyaoCastingContext(BaseModel):
-    """Immutable casting context bound at qigua time.
+    """Immutable casting context bound at qigua time."""
 
-    New events carry only the resolved yong_shen. focus is accepted solely for
-    events created before the qigua contract change.
-    """
-
-    model_config = ConfigDict(extra="forbid", json_schema_extra=_liuyao_context_schema_extra)
+    model_config = ConfigDict(extra="forbid")
     standard_time: Annotated[str, Field(json_schema_extra={"format": "date-time"})] = Field(
         description="起卦地标准时间 RFC3339（无 DST）。",
     )
     longitude: Annotated[float, Field(ge=-180, le=180)] = Field(
         description="起卦地经度（-180..180）。",
     )
-    yong_shen: Literal["父母", "兄弟", "官鬼", "妻财", "子孙", "世爻", "应爻"] | None = Field(
-        default=None,
+    yong_shen: Literal["父母", "兄弟", "官鬼", "妻财", "子孙", "世爻", "应爻"] = Field(
         description="起卦时解析出的用神；chart/ask 唯一取用依据。",
     )
-    focus: LiuyaoFocus | None = Field(
-        default=None,
-        description="旧事件兼容字段；新事件不携带。",
-    )
-
-    @model_validator(mode="after")
-    def _yongshen_or_legacy_focus(self) -> "LiuyaoCastingContext":
-        if self.yong_shen is not None and self.focus is not None:
-            raise ValueError("casting_context cannot carry both yong_shen and focus")
-        if self.yong_shen is None and self.focus is None:
-            raise ValueError("casting_context.yong_shen is required")
-        return self
 
 
 class LiuyaoCastingEvent(BaseModel):
-    """Immutable casting event shared by chart and ask.
-
-    The canonical event is {casting, casting_context}. question/origin remain
-    optional only to keep historical events readable.
-    """
+    """Immutable minimal casting event shared by chart and ask."""
 
     model_config = ConfigDict(extra="forbid")
-    question: Annotated[str, Field(min_length=2)] | None = Field(
-        default=None,
-        description="旧事件兼容字段；新事件不携带，question 由调用方持有。",
-    )
-    origin: LiuyaoOrigin | None = Field(
-        default=None,
-        description="旧事件兼容字段；新事件不携带。",
-    )
     casting: LiuyaoCasting = Field(description="一次起卦的完整源事实。")
     casting_context: LiuyaoCastingContext = Field(
         description="起卦地标准时间、经度与解析出的用神。",
     )
-
-    @model_validator(mode="after")
-    def _origin_matches_casting(self) -> "LiuyaoCastingEvent":
-        if self.origin is None:
-            return self
-        expected = "yaos" if self.origin.mode == "yaos" else "coins"
-        if self.casting.mode != expected:
-            raise ValueError(
-                f"origin.mode={self.origin.mode} requires casting.mode={expected}",
-            )
-        return self
 
 
 class LiuyaoAskInput(BaseModel):
@@ -691,9 +532,6 @@ class LiuyaoSafetyAdvisory(BaseModel):
 
 class LiuyaoCase(BaseModel):
     model_config = ConfigDict(extra="forbid", title="六爻 immutable case 契约", json_schema_extra={"$id": "liki:liuyao-case"})
-    case_version: Literal["liuyao-case-v3"] = Field(
-        description="Immutable case contract version.",
-    )
     event: LiuyaoCastingEvent = Field(
         description="Immutable casting event shared by chart and ask.",
     )

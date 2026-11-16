@@ -86,14 +86,29 @@ def test_root_entry_is_a_lightweight_router():
 
 
 def test_root_skill_language_protocol_reasons_in_simplified_chinese():
-    """推理固定简体中文以稳定工具/schema 判断；可见输出跟随用户语言。"""
+    """推理固定简体中文以稳定工具判断；可见输出跟随用户语言。"""
     text = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
     assert "## 语言协议" in text
     assert "推理、规划、规则比对和自我校验一律使用简体中文" in text
     assert "即使用户使用英文或其他语言也是如此" in text
-    assert "工具名、参数名、枚举值、断语 ID、schema key 和代码片段保留原文" in text
+    assert "工具名、参数名、枚举值、断语 ID 和代码片段保留原文" in text
     assert "最终输出语言跟随用户" in text
     assert "输出语言按「语言协议」跟随用户" in text
+
+
+def test_skill_docs_do_not_duplicate_mcp_introspection():
+    """MCP discovery/wire keys belong to the host; skill cards own methodology only."""
+    forbidden = re.compile(
+        r"\bMCP\b|自省|能力发现|inputSchema|outputSchema|jsonschema|"
+        r"source\.classic_basis|classic_basis|selected_yongshen|casting_context|"
+        r"standard_time|life_topics|matter=|perspective=|origin\.mode"
+    )
+    offenders = []
+    for path in [*SKILL_ROOT.glob("references/*.md"), SKILL_ROOT / "SKILL.md"]:
+        for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if forbidden.search(line):
+                offenders.append(f"{path.relative_to(SKILL_ROOT)}:{number}")
+    assert offenders == []
 
 
 def test_natal_layers_are_orthogonal():
@@ -328,16 +343,26 @@ def _resolve_card_token(skill_root: Path, token: str) -> Path | None:
     return None
 
 
-def test_side_entry_contract_sections_match():
-    """两侧入口的断语契约段逐字一致（仅年号界按体系不同）。"""
-    normalized = {}
-    for side, boundary in (("bazi", "八字公历立春界"), ("ziwei", "紫微农历春节界")):
+def test_side_entries_delegate_common_interpretation():
+    """本命公共断语口径只保存在本命入口；侧入口只声明技域。"""
+    common = (SKILL_ROOT / "references/natal-ENTRY.md").read_text(encoding="utf-8")
+    assert "## 本命断语公共口径" in common
+    for side, domain in (("bazi", "bazi"), ("ziwei", "ziwei")):
         text = (SKILL_ROOT / "references" / f"natal-{side}-ENTRY.md").read_text(encoding="utf-8")
-        start = text.index("## 断语契约")
-        end = text.find("\n## ", start + 1)
-        section = text[start:end if end >= 0 else len(text)]
-        normalized[side] = section.replace(boundary, "<BOUNDARY>")
-    assert normalized["bazi"] == normalized["ziwei"]
+        assert f"技域是 `{domain}`" in text
+        assert "references/natal-ENTRY.md`「本命断语公共口径」" in text
+        assert "直接采纳判断输出" not in text
+
+
+def test_side_entries_delegate_common_input_contract():
+    """本命输入口径只保存在本命入口；八字/紫微侧入口只做路由与侧执行。"""
+    common = (SKILL_ROOT / "references/natal-ENTRY.md").read_text(encoding="utf-8")
+    assert "## 本命输入约定" in common
+    assert "不依赖先前轮次的隐含上下文" in common
+    for side in ("bazi", "ziwei"):
+        text = (SKILL_ROOT / "references" / f"natal-{side}-ENTRY.md").read_text(encoding="utf-8")
+        assert "references/natal-ENTRY.md`「本命输入约定」" in text
+        assert "不依赖先前轮次的隐含上下文" not in text
 
 
 def test_app_info_words_are_routable_by_side_entries():

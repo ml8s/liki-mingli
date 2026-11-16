@@ -4,7 +4,7 @@
 
 ## 符号域
 
-符号取值以 MCP 契约 与排盘输出为准，本页不复制枚举。只记两条边界：甲为遁甲，不作独立符号；转盘 / 洛书飞盘 / 鸣法飞盘的门、星、神名差异以方法字段为准，名目见 `references/divination-qimen-bamen.md`、`references/divination-qimen-jiuxing.md`、`references/divination-qimen-bashen.md`。
+符号取值以排盘输出为准，本页不复制枚举。只记两条边界：甲为遁甲，不作独立符号；转盘 / 洛书飞盘 / 鸣法飞盘的门、星、神名差异以方法字段为准，名目见 `references/divination-qimen-bamen.md`、`references/divination-qimen-jiuxing.md`、`references/divination-qimen-bashen.md`。
 
 普通问事用事项用神；编排层查事象表转为显式用神，engine 只接收显式用神。事项用神与显式用神互斥；高级用户可直接传显式用神。
 

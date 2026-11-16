@@ -209,7 +209,6 @@ def test_liuyao_qigua_rpc_returns_single_casting_receipt():
     source = (ROOT / "engine/internal/mcpcontract/liuyao.go").read_text(encoding="utf-8")
     assert "type LiuyaoQiguaOutput struct" in source
     assert "Event LiuyaoCastingEvent" in source
-    assert "Question       string" in source
     assert "Origin         LiuyaoCastingRequestInput" in source
     assert "CastingContext LiuyaoCastingContextInput" in source
     assert "LiuyaoCoinRoundsInput" in source

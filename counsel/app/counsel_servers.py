@@ -88,7 +88,7 @@ def _add_divination_tools(server: MCPServer, domain: str) -> None:
 
 def _naming_check(**arguments):
     """Evaluate names against the selected bazi yong/xi/ji plan."""
-    from app.naming.naming import evaluate_names
+    from app.naming import evaluate_names
 
     return {
         "evaluations": evaluate_names(
@@ -104,7 +104,7 @@ def _naming_check(**arguments):
 
 def _add_naming_tools(server: MCPServer) -> None:
     """Register surname matching, character pools, composition, and checks."""
-    from app.naming.naming import (
+    from app.naming import (
         compose_names,
         lookup_char,
         match_surnames,

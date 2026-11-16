@@ -29,22 +29,6 @@ This is the canonical vocabulary for repository, image, service, and artifact na
 | Runtime base | local `liki-agent-runtime` image tagged by git SHA |
 | AgentDeployment | `deployment.json` |
 
-## Contract versions
-
-All JSON contracts use:
-
-```text
-liki.<domain>.<artifact>.v<major>
-```
-
-Examples:
-
-```text
-liki.agent-deployment.v1
-liki.feedback.v1
-liki.aipay.v1
-```
-
 ## Naming domain
 
 The service/domain is `naming`; `qiming` is not the tool prefix. MCP tools use `naming_*`.
