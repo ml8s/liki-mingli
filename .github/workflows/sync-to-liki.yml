@@ -44,7 +44,6 @@ jobs:
           set -euo pipefail
           mkdir -p dist/skills/liki
           rsync -a --delete skills/liki/ dist/skills/liki/
-          cp package.json dist/package.json
 
       - name: Commit and push
         working-directory: dist
