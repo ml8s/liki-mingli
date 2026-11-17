@@ -1,0 +1,3712 @@
+{
+  "version": 2,
+  "phase": "phase-1-read-only-audit",
+  "purpose": "Freeze a file-by-file manifest and the first item-by-item assertion candidate review before further skill-content deletion.",
+  "guardrails": [
+    "Do not delete a rule unless it is covered by an assertion/rule/tool output or is non-decisional background.",
+    "Do not replace uncovered topics with unconstrained model knowledge; use explicit fallback.",
+    "Keep routing, tool ordering, confirmation gates, safety boundaries, no-retry rules, and output contracts.",
+    "LIKI aggregate is pass-through and has no independent schema; only ENGINE and COUNSEL are schema sources.",
+    "Process one method family at a time and review diffs against this manifest."
+  ],
+  "counts": {
+    "markdown_files": 77,
+    "proposed_keep": 44,
+    "proposed_shrink": 31,
+    "proposed_migrate_candidate": 2,
+    "methods": 27
+  },
+  "assertion_layer": {
+    "natal": {
+      "assertions": 830,
+      "condition_rows": 1357,
+      "all_assertions_have_conditions": true,
+      "sides": {
+        "bazi": 497,
+        "ziwei": 333
+      },
+      "time_layers": {
+        "本命": 668,
+        "流年": 150,
+        "大限": 12
+      },
+      "domains": {
+        "健康": 73,
+        "性格": 80,
+        "家庭": 69,
+        "子女": 38,
+        "出身": 18,
+        "事业": 80,
+        "婚姻": 98,
+        "学业": 27,
+        "房产": 31,
+        "财运": 65,
+        "结构": 124,
+        "外貌": 14,
+        "应期": 17,
+        "灾劫": 14,
+        "精神": 25,
+        "玄学": 2,
+        "迁移": 22,
+        "人际": 17,
+        "兄弟": 2,
+        "父母": 1,
+        "官非": 1,
+        "大限": 12
+      },
+      "rules": {
+        "五行": 15,
+        "六亲": 25,
+        "出身": 18,
+        "十神": 122,
+        "大运": 25,
+        "合会": 51,
+        "外貌": 14,
+        "年大运": 4,
+        "年五行": 2,
+        "年六亲": 29,
+        "年十神": 19,
+        "年合会": 21,
+        "年旺衰": 9,
+        "年用神": 9,
+        "年神煞": 22,
+        "旺衰": 18,
+        "格局": 51,
+        "用神": 21,
+        "神煞": 35,
+        "调候": 6,
+        "仆役": 15,
+        "兄弟": 15,
+        "命宫": 30,
+        "夫妻": 28,
+        "子女": 21,
+        "官禄": 23,
+        "年仆役": 2,
+        "年兄弟": 2,
+        "年命宫": 2,
+        "年夫妻": 4,
+        "年子女": 5,
+        "年官禄": 8,
+        "年父母": 1,
+        "年田宅": 2,
+        "年疾厄": 2,
+        "年福德": 1,
+        "年财帛": 3,
+        "年迁移": 3,
+        "父母": 24,
+        "田宅": 26,
+        "疾厄": 18,
+        "福德": 22,
+        "财帛": 18,
+        "迁移": 18,
+        "大限": 12,
+        "婚姻稳定性": 3,
+        "职业形态": 6
+      },
+      "factor_rows": {
+        "base": 682,
+        "liunian": 121
+      },
+      "life_topics": 16
+    },
+    "qimen": {
+      "assertions": 57,
+      "rules": {
+        "lost_property": 7,
+        "thief_capture": 17,
+        "missing_person": 11,
+        "capture_escape": 10,
+        "thief_profile": 12
+      },
+      "scope": "five specialized qimen topics only"
+    },
+    "liuyao": {
+      "condition_rules": 15,
+      "timing_mechanisms": 10,
+      "scope": "conditional restoration and timing candidates"
+    }
+  },
+  "life_topic_routes": {
+    "marriage": {
+      "label": "婚姻",
+      "domains": [
+        "婚姻"
+      ],
+      "natal_rules": [
+        "夫妻",
+        "十神",
+        "神煞",
+        "合会",
+        "用神",
+        "格局"
+      ],
+      "annual_rules": [
+        "yearly_marriage",
+        "yingqi"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "family": {
+      "label": "家庭",
+      "domains": [
+        "家庭"
+      ],
+      "natal_rules": [
+        "父母",
+        "兄弟",
+        "十神",
+        "六亲",
+        "合会"
+      ],
+      "annual_rules": [
+        "yearly_family"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "children": {
+      "label": "子女",
+      "domains": [
+        "子女"
+      ],
+      "natal_rules": [
+        "子女",
+        "十神",
+        "六亲",
+        "神煞"
+      ],
+      "annual_rules": [
+        "yearly_zinv",
+        "yingqi"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "career": {
+      "label": "事业",
+      "domains": [
+        "事业"
+      ],
+      "natal_rules": [
+        "官禄",
+        "迁移",
+        "十神",
+        "格局",
+        "用神",
+        "大运"
+      ],
+      "annual_rules": [
+        "yearly_career"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "wealth": {
+      "label": "财运",
+      "domains": [
+        "财运"
+      ],
+      "natal_rules": [
+        "财帛",
+        "田宅",
+        "十神",
+        "格局",
+        "用神"
+      ],
+      "annual_rules": [
+        "yearly_wealth"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "health": {
+      "label": "健康",
+      "domains": [
+        "健康"
+      ],
+      "natal_rules": [
+        "疾厄",
+        "旺衰",
+        "五行",
+        "合会",
+        "神煞"
+      ],
+      "annual_rules": [
+        "yearly_health"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "mental": {
+      "label": "精神",
+      "domains": [
+        "精神"
+      ],
+      "natal_rules": [
+        "福德",
+        "旺衰",
+        "五行",
+        "合会"
+      ],
+      "annual_rules": [
+        "yearly_health"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "study": {
+      "label": "学业",
+      "domains": [
+        "学业"
+      ],
+      "natal_rules": [
+        "官禄",
+        "十神",
+        "神煞",
+        "用神"
+      ],
+      "annual_rules": [
+        "yearly_study"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "personality": {
+      "label": "性格",
+      "domains": [
+        "性格"
+      ],
+      "natal_rules": [
+        "命宫",
+        "十神",
+        "旺衰",
+        "格局",
+        "用神"
+      ],
+      "annual_rules": [
+        "年十神",
+        "年旺衰"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "appearance": {
+      "label": "外貌",
+      "domains": [
+        "外貌"
+      ],
+      "natal_rules": [
+        "外貌",
+        "命宫",
+        "五行"
+      ],
+      "annual_rules": [],
+      "decade_rules": []
+    },
+    "origin": {
+      "label": "出身",
+      "domains": [
+        "出身"
+      ],
+      "natal_rules": [
+        "出身",
+        "父母",
+        "田宅",
+        "六亲"
+      ],
+      "annual_rules": [],
+      "decade_rules": []
+    },
+    "relocation": {
+      "label": "迁移",
+      "domains": [
+        "迁移"
+      ],
+      "natal_rules": [
+        "迁移",
+        "十神",
+        "用神"
+      ],
+      "annual_rules": [
+        "年迁移",
+        "yingqi"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "social": {
+      "label": "人际",
+      "domains": [
+        "人际"
+      ],
+      "natal_rules": [
+        "仆役",
+        "兄弟",
+        "十神",
+        "合会"
+      ],
+      "annual_rules": [
+        "年仆役",
+        "年兄弟"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "property": {
+      "label": "房产",
+      "domains": [
+        "房产"
+      ],
+      "natal_rules": [
+        "田宅",
+        "十神",
+        "格局"
+      ],
+      "annual_rules": [
+        "年田宅"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "adversity": {
+      "label": "风险",
+      "domains": [
+        "灾劫",
+        "官非"
+      ],
+      "natal_rules": [
+        "疾厄",
+        "官禄",
+        "十神",
+        "神煞",
+        "合会"
+      ],
+      "annual_rules": [
+        "年疾厄",
+        "年官禄",
+        "yingqi"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    },
+    "chart_structure": {
+      "label": "盘面结构",
+      "domains": [
+        "结构",
+        "性格",
+        "财运",
+        "健康",
+        "事业",
+        "婚姻",
+        "学业"
+      ],
+      "natal_rules": [
+        "旺衰",
+        "用神",
+        "调候",
+        "格局",
+        "五行",
+        "十神",
+        "合会"
+      ],
+      "annual_rules": [
+        "年旺衰",
+        "年用神",
+        "年五行",
+        "年十神",
+        "年合会"
+      ],
+      "decade_rules": [
+        "大运",
+        "大限"
+      ]
+    }
+  },
+  "methods": {
+    "time_now": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "huangli_days": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "subject_candidates": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "city_info": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "bazi_chart": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "bazhai_chart": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "bazhai_layout": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "xuankong_chart": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "xuankong_liunian": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "liuyao_qigua": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "liuyao_chart": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "bazi_bond": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "bazi_liupan": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "ziwei_chart": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "ziwei_liupan": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "ziwei_bond": {
+      "server": "engine",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "qimen_chart": {
+      "server": "engine",
+      "exposed_by_liki": false,
+      "status": "inventory"
+    },
+    "bazi_yongshen": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "natal_query": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "natal_liunian_query": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "naming_surname": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "naming_pick": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "naming_character": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "naming_compose": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "naming_check": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "liuyao_ask": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    },
+    "qimen_ask": {
+      "server": "counsel",
+      "exposed_by_liki": true,
+      "status": "inventory"
+    }
+  },
+  "files": [
+    {
+      "path": "skills/liki/SKILL.md",
+      "bytes": 3674,
+      "domain": "liki",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/FAQ.md",
+      "bytes": 1428,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-ENTRY.md",
+      "bytes": 2831,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-app-date.md",
+      "bytes": 1179,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-app-decision.md",
+      "bytes": 2675,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-app-outcome.md",
+      "bytes": 2636,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-app-question.md",
+      "bytes": 1725,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-huangli-jiri.md",
+      "bytes": 1084,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-huangli-yiji.md",
+      "bytes": 2310,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-jixiong.md",
+      "bytes": 4676,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-liushou.md",
+      "bytes": 2173,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-patterns.md",
+      "bytes": 4039,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-topic-boundaries.md",
+      "bytes": 4106,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-yingqi.md",
+      "bytes": 3875,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-yongshen.md",
+      "bytes": 3164,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "migrate_candidate",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-liuyao-yuejian.md",
+      "bytes": 3916,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-bamen.md",
+      "bytes": 1408,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-bashen.md",
+      "bytes": 2183,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-capture-escape.md",
+      "bytes": 694,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-jinhan.md",
+      "bytes": 1992,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-jiuxing.md",
+      "bytes": 1359,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-lost-property.md",
+      "bytes": 937,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-missing-person.md",
+      "bytes": 719,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-quarter.md",
+      "bytes": 695,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-thief-capture.md",
+      "bytes": 829,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-yingqi.md",
+      "bytes": 2065,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/divination-qimen-yongshen.md",
+      "bytes": 2404,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "migrate_candidate",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/fengshui-ENTRY.md",
+      "bytes": 1529,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/fengshui-app-fengshui.md",
+      "bytes": 5492,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/fengshui-bazhai-youxing.md",
+      "bytes": 1948,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep_mapping",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/fengshui-xuankong-feixing.md",
+      "bytes": 1437,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep_mapping",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/fengshui-xuankong-yuanyun.md",
+      "bytes": 430,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-ENTRY.md",
+      "bytes": 2219,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-app-foreign.md",
+      "bytes": 3837,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-app-naming.md",
+      "bytes": 3321,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-app-selfcheck.md",
+      "bytes": 1848,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-bazi-calibration.md",
+      "bytes": 1353,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-bazi-yongshen.md",
+      "bytes": 1726,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/naming-qiming-ziku.md",
+      "bytes": 3026,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ENTRY.md",
+      "bytes": 4668,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-calibration.md",
+      "bytes": 3732,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-career.md",
+      "bytes": 2102,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "career"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-compatibility.md",
+      "bytes": 1934,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "marriage",
+        "family",
+        "children"
+      ],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-family.md",
+      "bytes": 2159,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "family",
+        "children",
+        "origin"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-health.md",
+      "bytes": 2501,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "health"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-marriage.md",
+      "bytes": 2290,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "marriage"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-mingshu.md",
+      "bytes": 3879,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure",
+        "marriage",
+        "career",
+        "wealth",
+        "health",
+        "family"
+      ],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-personality.md",
+      "bytes": 2785,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "personality"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-study.md",
+      "bytes": 1727,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "study"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-app-wealth.md",
+      "bytes": 1857,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "wealth",
+        "property"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-ENTRY.md",
+      "bytes": 2732,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-calibration.md",
+      "bytes": 2265,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-career.md",
+      "bytes": 1940,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "career"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-dayun.md",
+      "bytes": 10214,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "adversity",
+        "career",
+        "marriage",
+        "wealth",
+        "health",
+        "family"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-family.md",
+      "bytes": 7009,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "family",
+        "children",
+        "origin"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-geju.md",
+      "bytes": 3448,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-gongwei.md",
+      "bytes": 2106,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "family",
+        "career",
+        "health",
+        "wealth",
+        "marriage"
+      ],
+      "action": "keep_mapping",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-hehui.md",
+      "bytes": 6422,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure",
+        "health",
+        "family",
+        "career"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-hepan.md",
+      "bytes": 2734,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "marriage",
+        "family"
+      ],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-shishen.md",
+      "bytes": 8851,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "personality",
+        "career",
+        "marriage",
+        "study"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-study.md",
+      "bytes": 3424,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "study"
+      ],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-tiaohou.md",
+      "bytes": 2237,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure"
+      ],
+      "action": "keep_mapping",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-wangshuai.md",
+      "bytes": 4050,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure",
+        "personality"
+      ],
+      "action": "keep_mapping",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-wealth.md",
+      "bytes": 3750,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "wealth"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-wuxing-health.md",
+      "bytes": 2684,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "health"
+      ],
+      "action": "keep_trim",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-bazi-yongshen.md",
+      "bytes": 9368,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-dual-system.md",
+      "bytes": 638,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-ENTRY.md",
+      "bytes": 3109,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-calibration.md",
+      "bytes": 1696,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-geju.md",
+      "bytes": 1797,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "chart_structure"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-gexing.md",
+      "bytes": 2230,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "personality"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-gong12.md",
+      "bytes": 3502,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "family",
+        "marriage",
+        "children",
+        "career",
+        "wealth",
+        "health",
+        "property",
+        "parents"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-liunian.md",
+      "bytes": 2114,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "marriage",
+        "career",
+        "wealth",
+        "health",
+        "study",
+        "family"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-xiangmao.md",
+      "bytes": 2137,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "appearance"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-yingqi.md",
+      "bytes": 2320,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "adversity",
+        "study",
+        "marriage",
+        "health"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/references/natal-ziwei-zhuxing.md",
+      "bytes": 4389,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [
+        "personality",
+        "career",
+        "appearance",
+        "adversity"
+      ],
+      "action": "shrink",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    },
+    {
+      "path": "skills/liki/ops-FEEDBACK.md",
+      "bytes": 965,
+      "domain": "references",
+      "methods": [],
+      "assertion_topics": [],
+      "action": "keep",
+      "categories": [
+        "phase-1-audit"
+      ],
+      "notes": "Classified in phase-1 audit; no markdown modified by manifest generation."
+    }
+  ],
+  "candidate_reviews": {
+    "natal-bazi-family": {
+      "scope": "natal-bazi-family.md",
+      "items": [
+        {
+          "id": "family.mapping",
+          "statement": "父=偏财，母=正印，兄弟姐妹=比劫；配偶和子女按性别取星",
+          "verdict": "no_entry",
+          "reason": "基础取象已由因子引擎承担；skill 保留路由语义。"
+        },
+        {
+          "id": "family.status-table",
+          "statement": "透干、藏支、有根、被克、被合、被冲等状态翻译",
+          "verdict": "partial_coverage",
+          "reason": "父星、母星、配偶星、夫妻宫已有多条断语；未覆盖的细粒度状态暂不批量入表。"
+        },
+        {
+          "id": "family.annual-mapping",
+          "statement": "父母、子女、配偶的流年引动方向",
+          "verdict": "partial_coverage",
+          "reason": "年六亲、年十神、年配偶星、年子女星已覆盖主干；无需重复入表。"
+        },
+        {
+          "id": "family.pianyin-stepmother-guard",
+          "statement": "偏印透干不必然继母/养母，须多层证据闭环",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断护栏，不宜作为正断断语。"
+        },
+        {
+          "id": "family.caikes-yin-guard",
+          "statement": "财克印不必然母灾/父灾，须星损、宫凶、限运流年闭环",
+          "verdict": "keep_skill_policy",
+          "reason": "已有 liu_301/yliu_104/yliu_110 表达具体候选。"
+        },
+        {
+          "id": "family.weak-father-guard",
+          "statement": "偏财弱不必然父缘淡或父早亡",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断护栏。"
+        },
+        {
+          "id": "family.tao-hua-guard",
+          "statement": "桃花/天喜在六亲宫不必然出轨",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断护栏。"
+        },
+        {
+          "id": "family.relative-priority",
+          "statement": "明确六亲灾优先于自身一般吉象；弱信号不得无差别压过",
+          "verdict": "keep_skill_policy",
+          "reason": "解释编排规则，不依赖单一因子。"
+        },
+        {
+          "id": "family.father-tomb",
+          "statement": "偏财入墓叠加伏吟/冲刑/父星受制，父健康或关系重大变故候选",
+          "verdict": "deferred_needs_factor",
+          "reason": "当前财星入墓不区分正财/偏财，直接入表会过泛。"
+        },
+        {
+          "id": "family.father-palace-clash",
+          "statement": "冲偏财坐支叠加父星受制/合绊/入墓，父事引动候选",
+          "verdict": "deferred_needs_factor",
+          "reason": "缺偏财坐支被冲原子因子。"
+        },
+        {
+          "id": "family.parent-divorce-natal",
+          "statement": "年柱父母宫刑 + 财印相战，父母关系重大变动/离异候选",
+          "verdict": "entered",
+          "assertion_id": "liu_311",
+          "reason": "父母宫与财印两层同动；已有因子支持。",
+          "table_change": "assertions+1; conditions+2; condition_groups+1"
+        },
+        {
+          "id": "family.parent-divorce-annual",
+          "statement": "流年冲年柱 + 财印相战，父母离异/重大变动候选",
+          "verdict": "already_covered",
+          "assertion_id": "liu_310"
+        },
+        {
+          "id": "family.no-child-three-layer",
+          "statement": "宫弱、子女星受制无根、大运/流年应期全空，三层皆弱才断子女缘极弱",
+          "verdict": "deferred_needs_factor",
+          "reason": "缺大运/流年子女应期全空原子因子；两层成立即入表会过断。"
+        },
+        {
+          "id": "family.pregnancy-context",
+          "statement": "生育应期、流产/损胎、现实医疗确认分情境",
+          "verdict": "keep_skill_policy",
+          "reason": "安全与语境护栏。"
+        },
+        {
+          "id": "family.child-count-gender",
+          "statement": "子数不作确定性判断；性别取象仅倾向",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "zv_300",
+            "zv_301"
+          ]
+        },
+        {
+          "id": "family.palace-clash-guard",
+          "statement": "冲宫不必然灾亡，须星与同域凶象闭环",
+          "verdict": "keep_skill_policy"
+        }
+      ]
+    },
+    "natal-bazi-study": {
+      "scope": "natal-bazi-study.md",
+      "items": [
+        {
+          "id": "study.strength-and-yongshen-prerequisite",
+          "statement": "先定身强弱，再定印星为用/为忌",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "xue_210"
+          ],
+          "reason": "用神/喜忌已由用神裁决和断语条件承载。"
+        },
+        {
+          "id": "study.pattern-over-yin-state",
+          "statement": "格局主导优先于印星状态；格局定方向，印星状态定档位细节",
+          "verdict": "keep_skill_policy",
+          "reason": "解释优先级，避免同一局因单因子反复改档。"
+        },
+        {
+          "id": "study.dayun-damage",
+          "statement": "求学关键期大运比劫/食伤/财星为忌且通根，才可作降档候选；虚浮无根不破坏",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "xue_401"
+          ],
+          "reason": "条件与断语表一致。"
+        },
+        {
+          "id": "study.yin-run-upgrade",
+          "statement": "求学关键期行印星运，按 xue_400 判断可升一档",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "xue_400"
+          ]
+        },
+        {
+          "id": "study.minor-or-enrolled",
+          "statement": "未成年或在读不得判已毕业/成学/科甲，按在读阶段输出",
+          "verdict": "keep_skill_policy",
+          "reason": "现实状态护栏，不适合作为命局因子。"
+        },
+        {
+          "id": "study.no-skip-missing-grade",
+          "statement": "断语无用户诉求对应档时，回验后降档，禁止跳档凑诉求",
+          "verdict": "keep_skill_policy",
+          "reason": "输出编排护栏。"
+        },
+        {
+          "id": "study.hidden-ke-or-food-god-combines-yin",
+          "statement": "财星藏支有根暗克印、食神合印均记破",
+          "verdict": "deferred_needs_factor",
+          "reason": "当前因子表未见“暗克印”“食神合印”原子因子；直接入表会不可稳定评估。"
+        },
+        {
+          "id": "study.interruption-is-dropout-after-entry",
+          "statement": "印被财合/克破优先映射入学后中断，不是没考上",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "xue_312"
+          ],
+          "reason": "断语已表达先高后中断。"
+        },
+        {
+          "id": "study.entry-ability-not-graduation",
+          "statement": "大运修复只恢复入学能力，不改判已毕业档",
+          "verdict": "keep_skill_policy",
+          "reason": "产品护栏，防止断语外推。"
+        },
+        {
+          "id": "study.grade-iron-law",
+          "statement": "档位铁律不因身强印忌/制化优先豁免；但身强印忌受制不降档",
+          "verdict": "keep_skill_policy",
+          "reason": "输出档位护栏。"
+        }
+      ]
+    },
+    "natal-bazi-wuxing-health": {
+      "scope": "natal-bazi-wuxing-health.md",
+      "items": [
+        {
+          "id": "health.excess-two-direction",
+          "statement": "过旺五行先克所胜、再耗泄所生，双向都查",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "jk_201",
+            "jk_202",
+            "jk_203",
+            "jk_204",
+            "jk_205"
+          ]
+        },
+        {
+          "id": "health.special-combinations",
+          "statement": "金木交战、水火相战、土壅木郁、心肝俱弱、肾心不交",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "jk_311",
+            "jk_312",
+            "jk_313",
+            "jk_314",
+            "jk_315"
+          ]
+        },
+        {
+          "id": "health.no-diagnosis",
+          "statement": "五行只给倾向，不预设病名，不作诊断",
+          "verdict": "keep_skill_policy",
+          "reason": "医疗安全边界。"
+        },
+        {
+          "id": "health.fixed-year-general",
+          "statement": "固定年份吉凶按用神喜忌+大运流年综合，健康再叠五行失衡",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "ying_113"
+          ],
+          "reason": "已有凶年候选，但跨域输出编排仍在 skill。"
+        },
+        {
+          "id": "health.fu-yin-clash-day-self",
+          "statement": "流年伏吟/冲日支+忌神攻身，任一成立为健康关注年",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "jk_401",
+            "ying_113"
+          ],
+          "reason": "基础候选已覆盖；复合优先级是解释规则。"
+        },
+        {
+          "id": "health.repeated-element-priority",
+          "statement": "被大运/流年连年引动的失衡方向优先；静态计数辅助",
+          "verdict": "keep_skill_policy",
+          "reason": "时间线解释规则，不宜固化为单因子。"
+        },
+        {
+          "id": "health.timeline-no-count-diagnosis",
+          "statement": "多年凶象可按时间线关联关注/检查/手术/恶化，但不凭次数断重病，诊断交专业医疗",
+          "verdict": "keep_skill_policy",
+          "reason": "医疗安全边界。"
+        },
+        {
+          "id": "health.mother-vs-self",
+          "statement": "印星受克+冲年柱母宫优先母灾；自身另受忌神攻身才断自身病",
+          "verdict": "deferred_needs_factor",
+          "reason": "复合“母灾 vs 自身病”仲裁尚未有原子因子组合断语；现有 yliu_104/yliu_110 只覆盖单侧候选。"
+        }
+      ]
+    },
+    "natal-bazi-dayun": {
+      "scope": "natal-bazi-dayun.md",
+      "items": [
+        {
+          "id": "dayun.stem-branch-interaction",
+          "statement": "大运干支与四柱生合冲克刑，并定位影响宫位与十神",
+          "verdict": "keep_skill_policy",
+          "reason": "这是推断编排方法；断语层只保存命中结论，不承载通用推导流程。"
+        },
+        {
+          "id": "dayun.yongshen-effect",
+          "statement": "大运生扶用神为得运，克制用神为失运，助忌神需谨慎",
+          "verdict": "partial_coverage",
+          "reason": "用神相关断语已有，但大运整体得运/失运优先级仍在 skill 编排。"
+        },
+        {
+          "id": "dayun.ten-year-split",
+          "statement": "大运前五年天干主导，后五年地支主导",
+          "verdict": "keep_skill_policy",
+          "reason": "时间切分口径，非单条断语。"
+        },
+        {
+          "id": "dayun.transition-year-plus-minus-one",
+          "statement": "换运年前后一年为人生节奏切换关键节点",
+          "verdict": "deferred_needs_factor",
+          "reason": "现有因子只覆盖“换运首年”；若要入表需新增换运前后窗口因子。"
+        },
+        {
+          "id": "dayun.year-dayun-combination",
+          "statement": "大运定基调，流年定当年；不能简单以生扶/克制定吉凶",
+          "verdict": "keep_skill_policy",
+          "reason": "多层合参解释规则。"
+        },
+        {
+          "id": "dayun.clash-stronger-than-combination",
+          "statement": "应期强度按冲 > 合；天干论合先于论冲，地支冲合并行",
+          "verdict": "keep_skill_policy",
+          "reason": "强度排序属于推断方法，不是独立命理结论。"
+        },
+        {
+          "id": "dayun.stem-external-branch-internal",
+          "statement": "天干主外显/上半年/社会层，地支主内隐/下半年/个人层",
+          "verdict": "keep_skill_policy",
+          "reason": "传统解释口径，用于组织表达。"
+        },
+        {
+          "id": "dayun.target-star-palace-table",
+          "statement": "各领域目标星与目标宫位映射",
+          "verdict": "partial_coverage",
+          "reason": "配偶星、子女星、父星、母星等已有显式因子；其他领域目标星仍需逐项核证。"
+        },
+        {
+          "id": "dayun.window-actions",
+          "statement": "大运冲/合/克/生扶/值目标星或宫位时打开应期窗口",
+          "verdict": "partial_coverage",
+          "reason": "配偶星、子女星等已有显式因子；通用目标星窗口尚未全部入因子。"
+        },
+        {
+          "id": "dayun.flow-year-tool-orchestration",
+          "statement": "候选年份由应期判断内部编排流年排盘、大运交叉、伏吟反吟、神煞",
+          "verdict": "keep_skill_policy",
+          "reason": "工具内部编排说明，不是断语。"
+        },
+        {
+          "id": "dayun.strong-timing-signals",
+          "statement": "值宫/伏吟、宫位六合三合三会六冲、目标星透、换运叠加、多层引动",
+          "verdict": "partial_coverage",
+          "reason": "已有领域级因子，但通用三合/三会/值宫窗口仍需逐域核证。"
+        },
+        {
+          "id": "dayun.precision-to-year",
+          "statement": "流年定年、流月定事；应年=大运窗口×流年强引动",
+          "verdict": "keep_skill_policy",
+          "reason": "输出精度与编排规则。"
+        },
+        {
+          "id": "dayun.state-vs-event-topics",
+          "statement": "状态题以本命因子定案；事件题以流年+大运定案",
+          "verdict": "keep_skill_policy",
+          "reason": "问题类型分流规则。"
+        },
+        {
+          "id": "dayun.domain-pure-candidates",
+          "statement": "候选年必须在本问题域有明确支持，他域杂音不改写候选",
+          "verdict": "keep_skill_policy",
+          "reason": "防止跨域噪声污染结论。"
+        },
+        {
+          "id": "dayun.candidate-ranking",
+          "statement": "候选年按领域支持、星动、宫动、多层引动、真实事件验证排序",
+          "verdict": "keep_skill_policy",
+          "reason": "候选取舍编排规则。"
+        },
+        {
+          "id": "dayun.no-support-output",
+          "statement": "无候选或证据不足时如实输出证据不足，不硬选年份",
+          "verdict": "keep_skill_policy",
+          "reason": "防幻觉边界。"
+        }
+      ]
+    },
+    "natal-bazi-hehui": {
+      "scope": "natal-bazi-hehui.md",
+      "items": [
+        {
+          "id": "hehui.engine-relation-source",
+          "statement": "合冲刑害事实以 engine `关系[]` 为准，不自行拼合",
+          "verdict": "keep_skill_policy",
+          "reason": "数据来源边界。"
+        },
+        {
+          "id": "hehui.liu-he-states",
+          "statement": "地支六合分合绊、合化、合动；合化吉凶交给用神卡",
+          "verdict": "keep_skill_policy",
+          "reason": "结构候选已有 zh_206-zh_211，但三种应事状态是解释规则。"
+        },
+        {
+          "id": "hehui.liu-he-palace-mapping",
+          "statement": "年/月/日/时柱被合分别对应家庭、环境、婚姻、子女牵制",
+          "verdict": "keep_mapping",
+          "reason": "宫位解释映射；暂不逐条入断语表。"
+        },
+        {
+          "id": "hehui.combine-vs-attack",
+          "statement": "合主牵绊/聚合/性质变化；克主直接攻击/伤害/断裂",
+          "verdict": "keep_skill_policy",
+          "reason": "防止把合与克混读。"
+        },
+        {
+          "id": "hehui.liu-chong-palace-mapping",
+          "statement": "年/月/日/时柱被冲分别对应祖上父母、环境、婚姻、子女晚年的变动方向",
+          "verdict": "keep_mapping",
+          "reason": "宫位解释映射。"
+        },
+        {
+          "id": "hehui.chong-good-bad-decision",
+          "statement": "冲用神/吉星为凶，冲忌神/凶星先凶后吉，冲起吉星转机，冲起凶星为凶",
+          "verdict": "keep_skill_policy",
+          "reason": "需要先读用喜忌和综合结构，不宜拆成单因子断语。"
+        },
+        {
+          "id": "hehui.chong-strength-levels",
+          "statement": "冲+刑、伏吟+冲最强；冲被合解力度降低",
+          "verdict": "keep_skill_policy",
+          "reason": "强度分级规则。"
+        },
+        {
+          "id": "hehui.san-he-full-half-arch",
+          "statement": "完整三合最强；半合需引动；拱合最弱待触发",
+          "verdict": "deferred_needs_factor",
+          "reason": "结构候选已覆盖完整三合；半合/拱合未见独立断语，若产品需要应先补因子。"
+        },
+        {
+          "id": "hehui.san-hui",
+          "statement": "三会力量大于三合，成局需三支齐全",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "zh_216",
+            "zh_217",
+            "zh_218",
+            "zh_219"
+          ]
+        },
+        {
+          "id": "hehui.liu-hai",
+          "statement": "六害主暗中不和、长期消耗，并按宫位对应领域",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "zh_226",
+            "zh_227",
+            "zh_228",
+            "zh_229",
+            "zh_230",
+            "zh_231"
+          ]
+        },
+        {
+          "id": "hehui.xing",
+          "statement": "三刑、子卯刑、自刑的纠缠/是非/自我消耗含义",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "zh_232",
+            "zh_233",
+            "zh_234",
+            "zh_235",
+            "zh_236",
+            "zh_237",
+            "zh_238"
+          ]
+        },
+        {
+          "id": "hehui.annual-event-table",
+          "statement": "换运交接、冲刑引动、用喜忌、宫位、星动组合用于流年事件方向",
+          "verdict": "keep_skill_policy",
+          "reason": "与年断语同源的编排规则，不应硬编码固定优先级。"
+        }
+      ]
+    },
+    "natal-bazi-shishen": {
+      "scope": "natal-bazi-shishen.md 收缩前 / 收缩后对照",
+      "items": [
+        {
+          "id": "shishen.combination-table",
+          "statement": "杀印相生、伤官配印、财官相生、食伤生财、比劫争财的具体应事方向",
+          "verdict": "partial_coverage",
+          "reason": "食伤生财、比劫争财已有财运/事业断语；杀印相生与财官相生没有一对一断语，保留为解释口径，暂不入表。"
+        },
+        {
+          "id": "shishen.seven-kill-root-state",
+          "statement": "七杀有根/无根/被印化/食神制杀的性格反转",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "xg_502"
+          ],
+          "reason": "食神制杀已覆盖；无根被印化的反向口径未见独立断语，暂留 skill 解释规则。"
+        },
+        {
+          "id": "shishen.no-single-ten-god",
+          "statement": "性格/能力看十神组合，不以单一十神定论",
+          "verdict": "keep_skill_policy",
+          "reason": "组合解释护栏。"
+        },
+        {
+          "id": "shishen.body-strength-polarity",
+          "statement": "同一十神在身强/身弱时表象相反",
+          "verdict": "keep_skill_policy",
+          "reason": "解读极性规则，需要先读扶抑/用神结果；不是单因子断语。"
+        },
+        {
+          "id": "shishen.month-command-primary",
+          "statement": "月令本气十神定性格主面；旺衰十神只作辅面",
+          "verdict": "keep_skill_policy",
+          "reason": "主辅面优先级是输出编排规则，避免多条断语乱抢主结论。"
+        },
+        {
+          "id": "shishen.transparent-helper-vs-inner-main",
+          "statement": "外显行为取透干辅面，内在性格取月令主面；通用题默认主面",
+          "verdict": "keep_skill_policy",
+          "reason": "问法分层规则。"
+        },
+        {
+          "id": "shishen.female-officer-mix-clear",
+          "statement": "女命官杀混杂有合冲取清则贵；无合冲且夫星无根才断婚姻复杂",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "hun_105e",
+            "shi_122",
+            "hun_430",
+            "hun_431"
+          ]
+        },
+        {
+          "id": "shishen.marriage-closure",
+          "statement": "婚缘、婚变、再婚都须配偶星/夫妻宫/大运流年形成闭环",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "hun_101b",
+            "hun_201",
+            "hun_207",
+            "hun_401",
+            "hun_407",
+            "hun_409",
+            "hun_421",
+            "hun_422",
+            "hun_423"
+          ]
+        },
+        {
+          "id": "shishen制化优先",
+          "statement": "伤官配印、七杀有制、财被比劫夺、官杀被合时，原十神表象降级",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "xg_501",
+            "xg_502",
+            "xg_503",
+            "xg_504"
+          ],
+          "reason": "核心四类已覆盖；其余同类修正保留 skill 解释口径。"
+        },
+        {
+          "id": "shishen.pattern-disease-first",
+          "statement": "伤官见官、财坏印、劫财夺财、枭神夺食、七杀无制优先于表面吉象",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "zh_103",
+            "xg_503",
+            "xg_504",
+            "xg_505",
+            "xg_506",
+            "xg_507",
+            "xg_508",
+            "ge_302"
+          ]
+        }
+      ]
+    },
+    "natal-bazi-wealth": {
+      "scope": "natal-bazi-wealth.md 收缩前 / 收缩后对照",
+      "items": [
+        {
+          "id": "wealth.core-formula",
+          "statement": "财星定有无，身强定胜负，大运定起伏",
+          "verdict": "keep_skill_policy",
+          "reason": "解读顺序，不是单条断语。"
+        },
+        {
+          "id": "wealth.root-definition",
+          "statement": "财星地支藏干同五行为有根；临官帝旺强根、余气墓库弱根",
+          "verdict": "already_covered",
+          "reason": "因子引擎的有根/得地判定承担。"
+        },
+        {
+          "id": "wealth.body-weak-rich",
+          "statement": "身弱财旺为财多身弱、富屋贫人",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "cai_104",
+            "cai_205",
+            "ge_302",
+            "fam_108"
+          ]
+        },
+        {
+          "id": "wealth.dayun-movement",
+          "statement": "财、比劫、官杀、食伤大运分别引入财务、争财、压力、财源",
+          "verdict": "partial_coverage",
+          "reason": "具体流年/大运断语已有；通用大运分类保留为解释口径。"
+        },
+        {
+          "id": "wealth.competition-check",
+          "statement": "比劫争财须看财星根气、邻隔、官杀制比劫、食伤通关",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "cai_106",
+            "cai_108",
+            "cai_312"
+          ]
+        },
+        {
+          "id": "wealth.food-god-generates-wealth",
+          "statement": "先判断食伤生财财源，再看比劫分夺",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "cai_105",
+            "cai_204",
+            "cai_312",
+            "shi_105",
+            "shi_117"
+          ]
+        },
+        {
+          "id": "wealth.wealth-yin-relation",
+          "statement": "身弱财透克印，得财即损根基",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "cai_109",
+            "ycai_105"
+          ]
+        },
+        {
+          "id": "wealth.timing-ranking",
+          "statement": "换运年、财星双引动、合入命、财星值年等应期排序",
+          "verdict": "keep_skill_policy",
+          "reason": "候选排序是编排规则；具体引动已有年断语。"
+        },
+        {
+          "id": "wealth.loss-mechanisms",
+          "statement": "驿马+比劫、偏印+比劫、借贷纠纷、身弱财多、冲刃刑开财库",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "cai_107",
+            "cai_108",
+            "cai_311",
+            "cai_104",
+            "cai_201",
+            "cai_202"
+          ],
+          "reason": "主要候选已覆盖；冲刃刑库细节暂未独立断语。"
+        },
+        {
+          "id": "wealth.saving-judgment",
+          "statement": "弱财被劫/财无根难蓄；财有令有根多为有财难守",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "cai_103",
+            "cai_106",
+            "cai_108",
+            "cai_205"
+          ]
+        }
+      ]
+    },
+    "natal-bazi-career": {
+      "scope": "natal-bazi-career.md",
+      "items": [
+        {
+          "id": "career.core-formula",
+          "statement": "官杀定层次，财星定类型，食伤定才华方向",
+          "verdict": "keep_skill_policy",
+          "reason": "解读顺序；不是单条断语。"
+        },
+        {
+          "id": "career.food-god-upgrade",
+          "statement": "官杀不透时，若食伤生财成立可升自营/经商，不得直落安分上班",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "shi_105",
+            "shi_111",
+            "cai_204",
+            "cai_312"
+          ],
+          "reason": "已有食伤生财/自营候选；升格优先级仍在 skill。"
+        },
+        {
+          "id": "career.business-with-debt",
+          "statement": "食伤生财+偏财得禄为经营有成；羊刃冲财、劫财夺财、财星受冲为负债证据；两者同现并列比较",
+          "verdict": "deferred_needs_factor",
+          "reason": "“偏财得禄”和复合负债组合缺少稳定原子因子；直接入表会过断。"
+        },
+        {
+          "id": "career.civil-vs-technical-combo",
+          "statement": "官印相生+文昌/印星得地倾向文职；体力/技术组合并存时并列裁决",
+          "verdict": "keep_skill_policy",
+          "reason": "组合取象护栏，防止单星定职业。"
+        },
+        {
+          "id": "career.partial-yin-offset-special",
+          "statement": "偏印/华盖聚+官杀受制倾向偏门，须看驿马/食伤区分运输流通",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "zy_101",
+            "zy_102",
+            "zy_110",
+            "shi_119"
+          ],
+          "reason": "偏门/技术/变动职业已有断语。"
+        },
+        {
+          "id": "career.yongshen-pattern-dayun",
+          "statement": "用神十神定方向，格局定实现形态，大运定窗口；不得只用单一符号",
+          "verdict": "keep_skill_policy",
+          "reason": "合参规则。"
+        }
+      ]
+    },
+    "natal-bazi-hepan": {
+      "scope": "natal-bazi-hepan.md",
+      "items": [
+        {
+          "id": "hepan.no-score",
+          "statement": "合盘不打分，不定良配/慎配，不把单一冲合定关系成败",
+          "verdict": "keep_skill_policy",
+          "reason": "输出安全边界。"
+        },
+        {
+          "id": "hepan.engine-boundary",
+          "statement": "日主、夫妻宫、配偶星、十神、五行、纳音、神煞、大运流年均只并列事实",
+          "verdict": "keep_skill_policy",
+          "reason": "防止跨盘合成无据结论。"
+        },
+        {
+          "id": "hepan.read-order",
+          "statement": "先双方原局，再两柱交叉，再配偶星，再神煞辅助，最后双方大运流年同域引动",
+          "verdict": "keep_skill_policy",
+          "reason": "合盘编排规则。"
+        },
+        {
+          "id": "hepan.cross-full-sanhe-limit",
+          "statement": "两盘交叉不得输出完整三合/三会；完整成局看单盘全盘",
+          "verdict": "keep_skill_policy",
+          "reason": "防止跨盘伪成局。"
+        },
+        {
+          "id": "hepan.missing-input",
+          "statement": "缺时辰、性别或完整盘时，明示无法评估对象",
+          "verdict": "keep_skill_policy",
+          "reason": "缺输入边界。"
+        }
+      ]
+    },
+    "natal-bazi-calibration": {
+      "scope": "natal-bazi-calibration.md",
+      "items": [
+        {
+          "id": "calibration.consume-confirmed-candidates",
+          "statement": "只处理归一且确认候选；本卡只执行八字侧校准",
+          "verdict": "keep_skill_policy",
+          "reason": "编排边界。"
+        },
+        {
+          "id": "calibration.structural-exclusion",
+          "statement": "婚姻段数、子女缘、离异、学历事实可作结构性排除",
+          "verdict": "keep_skill_policy",
+          "reason": "校准规则，不是输出给用户的命理结论。"
+        },
+        {
+          "id": "calibration.event-match",
+          "statement": "3-5件真实大事逐盘逐年比对断语",
+          "verdict": "keep_skill_policy",
+          "reason": "校准编排。"
+        },
+        {
+          "id": "calibration.direction-fallback",
+          "statement": "吻合接近时按事业/婚姻/财运问题方向分界",
+          "verdict": "keep_skill_policy",
+          "reason": "解释分界规则。"
+        },
+        {
+          "id": "calibration.error-weight",
+          "statement": "事件年份误差≥2年降低权重；无事件输出考时证据不足",
+          "verdict": "keep_skill_policy",
+          "reason": "证据质量护栏。"
+        }
+      ]
+    },
+    "natal-bazi-geju": {
+      "scope": "natal-bazi-geju.md",
+      "items": [
+        {
+          "id": "geju.month-command-principle",
+          "statement": "格局以月令为提纲；透干定格，不透以本气虚格；清纯为贵",
+          "verdict": "keep_skill_policy",
+          "reason": "解读框架；engine 已输出格神和结构。"
+        },
+        {
+          "id": "geju.engine-source",
+          "statement": "定格、成破救应均读 engine 和 counsel 断语，不自行查表",
+          "verdict": "keep_skill_policy",
+          "reason": "数据来源边界。"
+        },
+        {
+          "id": "geju.forward-inverse-use",
+          "statement": "顺用格宜生扶，逆用格宜制化；具体成败以断语为准",
+          "verdict": "keep_skill_policy",
+          "reason": "理解背景，不是独立断语。"
+        },
+        {
+          "id": "geju.pattern-theme-fuyi",
+          "statement": "格局方向不是喜神；必须与扶抑、调候、冲合牵制合参",
+          "verdict": "keep_skill_policy",
+          "reason": "防止把结构主题当喜忌。"
+        },
+        {
+          "id": "geju.term-boundary",
+          "statement": "格神、用神、相神、喜忌术语边界",
+          "verdict": "keep_skill_policy",
+          "reason": "术语纪律。"
+        },
+        {
+          "id": "geju.clarity-strength-position",
+          "statement": "格神清浊、有力无力、位置和结构证据只说明强度；成破终判以断语为准",
+          "verdict": "keep_skill_policy",
+          "reason": "防自行定成破。"
+        }
+      ]
+    },
+    "natal-bazi-gongwei": {
+      "scope": "natal-bazi-gongwei.md",
+      "items": [
+        {
+          "id": "gongwei.year-pillar",
+          "statement": "年柱对应祖上/父母/根基/早年；父母以星法为主，宫位作出身环境辅助",
+          "verdict": "keep_mapping",
+          "reason": "用户示例所需的宫位映射。"
+        },
+        {
+          "id": "gongwei.year-void",
+          "statement": "年柱空亡主祖上助力少、早年离家，不否定父母财力",
+          "verdict": "deferred_needs_factor",
+          "reason": "engine 有柱空亡事实，但 natal 因子算子尚未暴露；入表前需补因子并核经典依据。"
+        },
+        {
+          "id": "gongwei.year-clash-combine",
+          "statement": "年柱逢冲主父母不和/早离家；逢合主家庭牵制或助力",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "liu_310",
+            "liu_501"
+          ],
+          "reason": "刑/冲部分已有；合和空亡需另行核证。"
+        },
+        {
+          "id": "gongwei.month-pillar",
+          "statement": "月柱对应兄弟/同事/青年；冲、合、空亡和月令被冲的口径",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "liu_401",
+            "liu_402",
+            "liu_502"
+          ],
+          "reason": "兄弟数量/刑已有；合、空亡、月令被冲需核证。"
+        },
+        {
+          "id": "gongwei.day-pillar",
+          "statement": "日支配偶宫合/冲/刑/坐偏印/空亡口径",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "hun_401",
+            "hun_402",
+            "hun_409"
+          ],
+          "reason": "合冲刑已有；坐偏印和空亡未入断语。"
+        },
+        {
+          "id": "gongwei.hour-pillar",
+          "statement": "时柱对应子女/晚年；合/冲/刑/坐偏印/空亡口径",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "liu_503",
+            "zv_201",
+            "zv_300",
+            "zv_301"
+          ],
+          "reason": "刑与子女星已有；合、坐偏印、空亡未入断语。"
+        }
+      ]
+    },
+    "natal-bazi-wangshuai": {
+      "scope": "natal-bazi-wangshuai.md",
+      "items": [
+        {
+          "id": "wangshuai.engine-first",
+          "statement": "身强弱、从格、旺衰状态由 engine 计算，LLM 只读不重算",
+          "verdict": "keep_skill_policy",
+          "reason": "数据来源边界。"
+        },
+        {
+          "id": "wangshuai.fuyi-fields",
+          "statement": "读取 season、日干根气、印比数量、关系引用等扶抑依据",
+          "verdict": "keep_mapping",
+          "reason": "返回字段解读。"
+        },
+        {
+          "id": "wangshuai.count-not-strength",
+          "statement": "五行个数不等于有效力量；必须看五行状态与十神状态",
+          "verdict": "keep_skill_policy",
+          "reason": "防机械计数。"
+        },
+        {
+          "id": "wangshuai.three-obtains",
+          "statement": "得令、得地、得势综合定性，得令最重",
+          "verdict": "keep_skill_policy",
+          "reason": "传统解释口径。"
+        },
+        {
+          "id": "wangshuai.congge-tag",
+          "statement": "从格标签由扶抑从格标记输出，按月令、根型、印比、十神有效力量复核",
+          "verdict": "already_covered",
+          "reason": "engine 从格规则与用神裁决承担。"
+        },
+        {
+          "id": "wangshuai.body-weak-day-master-table",
+          "statement": "十个日主身强/身弱特征降级表",
+          "verdict": "deferred_needs_table_decision",
+          "reason": "通用性格知识；断语表已有部分十神旺衰，不建议直接全表复制。"
+        },
+        {
+          "id": "wangshuai.element-flow-and-core-rhymes",
+          "statement": "天道/地道/人道、气势流通、旺极宜泄、衰极宜扶、十神生克口诀",
+          "verdict": "keep_skill_policy",
+          "reason": "解释背景与防误判口径。"
+        }
+      ]
+    },
+    "natal-bazi-tiaohou": {
+      "scope": "natal-bazi-tiaohou.md",
+      "items": [
+        {
+          "id": "tiaohou.priority",
+          "statement": "冬夏极端调候优先于格局扶抑；春秋调候只微调",
+          "verdict": "keep_skill_policy",
+          "reason": "用神裁决优先级口径。"
+        },
+        {
+          "id": "tiaohou.engine-fields",
+          "statement": "调候主辅神、透藏、冲合、宫支引动由引擎/二次因子返回",
+          "verdict": "keep_mapping",
+          "reason": "数据来源边界。"
+        },
+        {
+          "id": "tiaohou.secondary-conditions",
+          "statement": "辅神保留经典条件，不得当无条件喜神",
+          "verdict": "keep_skill_policy",
+          "reason": "防误判。"
+        },
+        {
+          "id": "tiaohou.secondary-as-xi-candidate",
+          "statement": "辅神须生助或护持用神且不过旺，才可作喜神候选",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "th_101",
+            "th_102",
+            "th_201",
+            "th_202"
+          ],
+          "reason": "调候断语和用神裁决已覆盖。"
+        },
+        {
+          "id": "tiaohou.missing-or-controlled",
+          "statement": "主神缺失看辅神；藏而不透/被冲被合只作结构证据",
+          "verdict": "keep_mapping",
+          "reason": "读取规则。"
+        }
+      ]
+    },
+    "natal-bazi-yongshen": {
+      "scope": "natal-bazi-yongshen.md",
+      "items": [
+        {
+          "id": "yongshen.dataflow",
+          "statement": "八字盘→因子→决策表→唯一裁决→下游消费",
+          "verdict": "keep_skill_policy",
+          "reason": "架构流向。"
+        },
+        {
+          "id": "yongshen.result-contract",
+          "statement": "裁决包含用喜忌、状态、规则、冲突、证据；待复核/未决不可消费",
+          "verdict": "keep_skill_policy",
+          "reason": "消费边界。"
+        },
+        {
+          "id": "yongshen.fuyi",
+          "statement": "身强弱决定扶用或克泄；中和另有处理",
+          "verdict": "keep_skill_policy",
+          "reason": "解释框架。"
+        },
+        {
+          "id": "yongshen.geju",
+          "statement": "格局提供结构方向，不直接等于喜忌",
+          "verdict": "keep_skill_policy",
+          "reason": "术语边界。"
+        },
+        {
+          "id": "yongshen.tiaohou",
+          "statement": "冬夏调候优先，春秋只作修正；调候与扶抑忌神冲突进待复核",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "th_101",
+            "th_102",
+            "th_201",
+            "th_202"
+          ],
+          "reason": "调候断语已有。"
+        },
+        {
+          "id": "yongshen.congge",
+          "statement": "从格双证、假从、从格流年顺逆",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "ge_703",
+            "ge_704",
+            "ge_705",
+            "ge_707",
+            "ge_708",
+            "ge_709",
+            "ge_710",
+            "ge_711"
+          ],
+          "reason": "从格断语覆盖。"
+        },
+        {
+          "id": "yongshen.decision-table",
+          "statement": "按 order 决策：假从、调候冲突、调候、扶抑、中和、未决",
+          "verdict": "keep_skill_policy",
+          "reason": "用神裁决引擎策略。"
+        },
+        {
+          "id": "yongshen.xi-recheck",
+          "statement": "喜神候选须过生克方向、力量、通关、合冲牵制、调候辅证检查",
+          "verdict": "keep_skill_policy",
+          "reason": "复核护栏。"
+        },
+        {
+          "id": "yongshen.state",
+          "statement": "用神有根、有力、处境进入应期判断",
+          "verdict": "keep_mapping",
+          "reason": "状态解释。"
+        },
+        {
+          "id": "yongshen.combine-goodbad",
+          "statement": "合化成功条件与去凶化吉/去吉化凶等四种走向",
+          "verdict": "keep_skill_policy",
+          "reason": "解释规则，不宜直接入表。"
+        },
+        {
+          "id": "yongshen.dual-track",
+          "statement": "从格标签与三得法方向冲突时双轨仲裁",
+          "verdict": "keep_skill_policy",
+          "reason": "裁决仲裁规则。"
+        }
+      ]
+    },
+    "natal-app-calibration": {
+      "scope": "natal-app-calibration.md",
+      "items": [
+        {
+          "id": "app-cal.candidate-normalization",
+          "statement": "候补时辰、出生地、人生大事先确认；用时间候选归一展开候选并保留原因域",
+          "verdict": "keep_skill_policy",
+          "reason": "多候选编排，不是命局断语。"
+        },
+        {
+          "id": "app-cal.impact-domain-classification",
+          "statement": "按候选原因域判断影响八字、紫微或双侧；交节通常只影响八字/大运",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系校准分流。"
+        },
+        {
+          "id": "app-cal.cross-side-adjudication",
+          "statement": "双侧同指定案；不同并列；交节-only只用八字/大运",
+          "verdict": "keep_skill_policy",
+          "reason": "防止跨体系强行合并。"
+        },
+        {
+          "id": "app-cal.no-event-fallback",
+          "statement": "无可验证事件不给唯一时辰，给候补区间和事件类型建议",
+          "verdict": "keep_skill_policy",
+          "reason": "证据不足降级。"
+        },
+        {
+          "id": "app-cal.minor-or-known-time",
+          "statement": "宝宝/青少年跳过校验；用户已明确时辰以用户为准",
+          "verdict": "keep_skill_policy",
+          "reason": "现实状态边界。"
+        },
+        {
+          "id": "app-cal.too-close-to-boundary",
+          "statement": "距时辰交界≤30分钟仍按输入排盘并提示校准，不静默确定",
+          "verdict": "keep_skill_policy",
+          "reason": "不确定性护栏。"
+        },
+        {
+          "id": "app-cal.output-evidence-coverage",
+          "statement": "输出唯一候选/优势候选/并列候选/证据不足，并列断语标识",
+          "verdict": "keep_skill_policy",
+          "reason": "结果可信度表达。"
+        }
+      ]
+    },
+    "natal-app-career": {
+      "scope": "natal-app-career.md",
+      "items": [
+        {
+          "id": "app-career.information-needs",
+          "statement": "事业层次、方向、十年起伏、具体年份分别要求本命与应期",
+          "verdict": "keep_skill_policy",
+          "reason": "场景信息需求。"
+        },
+        {
+          "id": "app-career.ziwei-office-composite",
+          "statement": "紫微官禄宫吉化+昌曲倾向文书/文职；体力星组并存时并列裁决",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系场景合参；当前断语表无此复合断语。"
+        },
+        {
+          "id": "app-career.unorthodox-composite",
+          "statement": "阴煞/丧门/哭星聚+官杀受制倾向偏门入殓类；用武曲/天马区分运输",
+          "verdict": "deferred_needs_factor",
+          "reason": "跨体系复合取象缺少原子因子；不宜直接入本命断语表。"
+        },
+        {
+          "id": "app-career.palace-scope-guard",
+          "statement": "紫微官禄宫只主事业，不作学业/婚姻信号",
+          "verdict": "keep_skill_policy",
+          "reason": "宫位语义护栏。"
+        },
+        {
+          "id": "app-career.two-system-evidence-upgrade",
+          "statement": "职业取象须覆盖八字与紫微各至少一层证据",
+          "verdict": "keep_skill_policy",
+          "reason": "取象升格护栏。"
+        },
+        {
+          "id": "app-career.travel-composite",
+          "statement": "流年命宫落迁移宫/迁移宫化忌，叠八字驿马伏吟逢冲或灾煞，优先迁移出行事类",
+          "verdict": "deferred_needs_factor",
+          "reason": "跨体系复合触发缺少统一因子。"
+        }
+      ]
+    },
+    "natal-app-compatibility": {
+      "scope": "natal-app-compatibility.md",
+      "items": [
+        {
+          "id": "app-compat.two-full-births",
+          "statement": "双人合盘必须取得双方完整出生信息；缺时辰/性别明示无法完整评估",
+          "verdict": "keep_skill_policy",
+          "reason": "输入边界。"
+        },
+        {
+          "id": "app-compat.fact-listing",
+          "statement": "先并列双方日主、夫妻宫、配偶星、干支与宫位事实",
+          "verdict": "keep_skill_policy",
+          "reason": "合盘编排。"
+        },
+        {
+          "id": "app-compat.evidence-hierarchy",
+          "statement": "主配偶星/夫妻宫强于辅助神煞",
+          "verdict": "keep_skill_policy",
+          "reason": "证据层级。"
+        },
+        {
+          "id": "app-compat.no-score-label",
+          "statement": "不输出缘分分数、良配/慎配标签；单冲合神煞不下成败结论",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断边界。"
+        }
+      ]
+    },
+    "natal-app-family": {
+      "scope": "natal-app-family.md",
+      "items": [
+        {
+          "id": "app-family.relative-information-needs",
+          "statement": "按目标亲人取星宫、透藏根气、冲合克与应期",
+          "verdict": "keep_skill_policy",
+          "reason": "场景编排。"
+        },
+        {
+          "id": "app-family.major-change-closure",
+          "statement": "重大变动须星损、宫凶、限运或流年引动形成独立闭环；单信号只作倾向",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断护栏。"
+        },
+        {
+          "id": "app-family.parent-cross-system",
+          "statement": "紫微父母宫凶象 + 八字年柱宫引动/财印受制覆盖不同层，才论父母离异或重大变故",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "liu_310",
+            "liu_311"
+          ],
+          "reason": "单侧断语已有；跨体系闭环仍是场景规则。"
+        },
+        {
+          "id": "app-family.child-loss-cross-system",
+          "statement": "紫微子女宫化忌/流羊入子女宫 + 八字食伤受冲/入墓为孕产损失候选；流年吉化只作应期",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "ystar_101",
+            "zv_201"
+          ],
+          "reason": "跨体系复合仍需场景合参。"
+        },
+        {
+          "id": "app-family.origin-cross-system",
+          "statement": "紫微父母宫庙陷与八字年柱宫成败、财星实虚同参定出身贫富",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "fam_101",
+            "fam_102",
+            "fam_103",
+            "fam_104",
+            "fam_105",
+            "fam_120",
+            "fam_121",
+            "fam_122"
+          ],
+          "reason": "八字出身断语已多；紫微侧与场景合参未入表。"
+        },
+        {
+          "id": "app-family.fallback-star-mapping",
+          "statement": "偏财不现看正财和年柱；正印不现看偏印；原局无子女星看大运引动",
+          "verdict": "keep_skill_policy",
+          "reason": "缺星降级映射。"
+        }
+      ]
+    },
+    "natal-app-health": {
+      "scope": "natal-app-health.md",
+      "items": [
+        {
+          "id": "app-health.tendency-only",
+          "statement": "健康输出为倾向和关注方向；重大病灾需多层闭环并列轻解释",
+          "verdict": "keep_skill_policy",
+          "reason": "医疗安全边界。"
+        },
+        {
+          "id": "app-health.three-layer-disease",
+          "statement": "先天疾厄宫、大限疾厄主题、流年冲克/引动三层齐备才断细节",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系细节判定护栏。"
+        },
+        {
+          "id": "app-health.who-is-sick",
+          "statement": "紫微流年疾厄化忌/凶化一级信号为自己；叠八字忌神攻身才强化",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "yjz_201",
+            "jk_301",
+            "jk_302",
+            "jk_303",
+            "jk_304",
+            "jk_305"
+          ],
+          "reason": "单侧断语已有；自我归因合参仍在 skill。"
+        },
+        {
+          "id": "app-health.lighter-explanation-first",
+          "statement": "重大病灾前列较轻替代解释",
+          "verdict": "keep_skill_policy",
+          "reason": "医疗安全护栏。"
+        }
+      ]
+    },
+    "natal-app-marriage": {
+      "scope": "natal-app-marriage.md",
+      "items": [
+        {
+          "id": "app-marriage.information-needs",
+          "statement": "配偶星、夫妻宫、婚姻状态、应期和目标年分别取本命与应期",
+          "verdict": "keep_skill_policy",
+          "reason": "场景信息需求。"
+        },
+        {
+          "id": "app-marriage.cross-system-composite",
+          "statement": "紫微夫妻宫信号与八字配偶星/宫位同参",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系合参；已有单侧断语但复合仍由场景编排。"
+        },
+        {
+          "id": "app-marriage.no-deterministic",
+          "statement": "未验证时段标注证据状态，不写成必然",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断边界。"
+        }
+      ]
+    },
+    "natal-app-mingshu": {
+      "scope": "natal-app-mingshu.md",
+      "items": [
+        {
+          "id": "app-mingshu.routing",
+          "statement": "完整命书、默认看命、明确主题、双人关系分别分流",
+          "verdict": "keep_skill_policy",
+          "reason": "场景路由。"
+        },
+        {
+          "id": "app-mingshu.blocked-confirmations",
+          "statement": "四柱/时辰确认与校准范围确认是阻塞步骤",
+          "verdict": "keep_skill_policy",
+          "reason": "交互护栏。"
+        },
+        {
+          "id": "app-mingshu.opening-only",
+          "statement": "命书开场只给2-3条显著信号和编号入口，不展开全卷",
+          "verdict": "keep_skill_policy",
+          "reason": "输出体量控制。"
+        },
+        {
+          "id": "app-mingshu.historical-events-calibration-only",
+          "statement": "历史事件吻合只作校准参考，不作因果证明",
+          "verdict": "keep_skill_policy",
+          "reason": "证据边界。"
+        },
+        {
+          "id": "app-mingshu.professional-boundary",
+          "statement": "健康、生育、重大财务或时间窗口附专业/现实意见；应期不作必然",
+          "verdict": "keep_skill_policy",
+          "reason": "安全边界。"
+        }
+      ]
+    },
+    "natal-app-personality": {
+      "scope": "natal-app-personality.md",
+      "items": [
+        {
+          "id": "app-personality.information-needs",
+          "statement": "基础性格、组合修正、紫微合参、外貌体型分层取信息",
+          "verdict": "keep_skill_policy",
+          "reason": "场景编排。"
+        },
+        {
+          "id": "app-personality.main-vs-expression-layer",
+          "statement": "八字月令十神定主面，紫微命宫主星定表达层；通用题不令紫微覆盖月令",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系主辅分层。"
+        },
+        {
+          "id": "app-personality.star-ten-god-cross-check",
+          "statement": "紫微主星与八字十神同向时作验证参考",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系互证表，暂不入断语表。"
+        },
+        {
+          "id": "app-personality.body-cross-check",
+          "statement": "八字日主五行旺衰定底色，紫微主星定体态；冲突并列",
+          "verdict": "keep_skill_policy",
+          "reason": "外貌互证编排。"
+        },
+        {
+          "id": "app-personality.empty-palace-fallback",
+          "statement": "紫微命宫对宫皆无主星时，以八字十神为主判性格",
+          "verdict": "keep_skill_policy",
+          "reason": "缺信号降级。"
+        },
+        {
+          "id": "app-personality.upgrade-evidence",
+          "statement": "性格/职业/身份取象须八字与紫微各至少一层证据",
+          "verdict": "keep_skill_policy",
+          "reason": "反单信号护栏。"
+        }
+      ]
+    },
+    "natal-app-study": {
+      "scope": "natal-app-study.md",
+      "items": [
+        {
+          "id": "app-study.information-needs",
+          "statement": "印星学习能力、求学应期、学历档、目标年分别取信息",
+          "verdict": "keep_skill_policy",
+          "reason": "场景编排。"
+        },
+        {
+          "id": "app-study.entry-ability-composite",
+          "statement": "紫微昌曲化科入官禄/命宫 + 八字官杀生印/食伤泄秀判断入学能力",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系复合，当前不做单条断语。"
+        },
+        {
+          "id": "app-study.graduation-grade-guard",
+          "statement": "入学能力不等同毕业档；毕业档按八字学历档护栏",
+          "verdict": "keep_skill_policy",
+          "reason": "防外推。"
+        },
+        {
+          "id": "app-study.timing-composite",
+          "statement": "紫微流年昌曲化科与八字印星引动同参定考试窗口",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系应期合参。"
+        },
+        {
+          "id": "app-study.no-yin-fallback",
+          "statement": "原局无印星时查食伤学习能力和官杀压力成才",
+          "verdict": "keep_skill_policy",
+          "reason": "缺星降级。"
+        }
+      ]
+    },
+    "natal-app-wealth": {
+      "scope": "natal-app-wealth.md",
+      "items": [
+        {
+          "id": "app-wealth.information-needs",
+          "statement": "财星、担财能力、十年风险、目标年细节分别取本命与应期",
+          "verdict": "keep_skill_policy",
+          "reason": "场景编排。"
+        },
+        {
+          "id": "app-wealth.fraud-composite",
+          "statement": "紫微巨门忌+仆役宫凶，与八字偏印忌+比劫争财同参判断受骗/合伙风险",
+          "verdict": "deferred_needs_factor",
+          "reason": "跨体系复合候选缺统一因子；不宜直接入本命断语表。"
+        },
+        {
+          "id": "app-wealth.property-vs-saving",
+          "statement": "紫微田宅主置业，八字财星比劫主经济状况与积蓄",
+          "verdict": "keep_skill_policy",
+          "reason": "体系分工。"
+        },
+        {
+          "id": "app-wealth.no-wealth-star-fallback",
+          "statement": "原局无财星查食伤隐性财源；财多身弱标注难存",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "cai_104",
+            "cai_105",
+            "cai_204",
+            "cai_305"
+          ],
+          "reason": "缺财与身弱已有断语。"
+        }
+      ]
+    },
+    "natal-ziwei-ENTRY": {
+      "scope": "natal-ziwei-ENTRY.md",
+      "items": [
+        {
+          "id": "ziwei-entry.routing",
+          "statement": "按事业/婚姻/财运/健康/学业/性格/六亲/相貌/合盘/考时/基础分流",
+          "verdict": "keep_skill_policy",
+          "reason": "侧内路由。"
+        },
+        {
+          "id": "ziwei-entry.required-input",
+          "statement": "需要原始出生信息、主题维度、约束；跨轮从已确认事实出发",
+          "verdict": "keep_skill_policy",
+          "reason": "输入边界。"
+        },
+        {
+          "id": "ziwei-entry.execution-flow",
+          "statement": "历法排盘→因子→本命/应期判断→完成任务",
+          "verdict": "keep_skill_policy",
+          "reason": "工具编排。"
+        },
+        {
+          "id": "ziwei-entry.common-assertions",
+          "statement": "断语公共口径引用 natal-ENTRY",
+          "verdict": "keep_skill_policy",
+          "reason": "已去重。"
+        },
+        {
+          "id": "ziwei-entry.school-boundary",
+          "statement": "三合派基础口径；不支持飞星自化、钦天四化飞宫",
+          "verdict": "keep_skill_policy",
+          "reason": "流派边界。"
+        }
+      ]
+    },
+    "natal-ziwei-calibration": {
+      "scope": "natal-ziwei-calibration.md",
+      "items": [
+        {
+          "id": "ziwei-calibration.consume-candidates",
+          "statement": "只处理 app 校准归一的受影响候选",
+          "verdict": "keep_skill_policy",
+          "reason": "编排边界。"
+        },
+        {
+          "id": "ziwei-calibration.side-flow",
+          "statement": "逐候选取农历/时辰→排盘→因子→应期→对比",
+          "verdict": "keep_skill_policy",
+          "reason": "侧校准流程。"
+        },
+        {
+          "id": "ziwei-calibration.structural-exclusion",
+          "statement": "婚姻段数、子女、事业层次与紫微宫星冲突可降支持/排除",
+          "verdict": "keep_mapping",
+          "reason": "校准对照规则。"
+        },
+        {
+          "id": "ziwei-calibration.event-match",
+          "statement": "流年昌曲化科、凶星与事件性质匹配为吻合/不吻合/不相关",
+          "verdict": "keep_mapping",
+          "reason": "事件核对口径。"
+        },
+        {
+          "id": "ziwei-calibration.reference-table",
+          "statement": "感情/学业/子女/事业强反信号参考",
+          "verdict": "keep_mapping",
+          "reason": "解释参考，不作单条断语。"
+        },
+        {
+          "id": "ziwei-calibration.output",
+          "statement": "保留/存疑/排除三态",
+          "verdict": "keep_skill_policy",
+          "reason": "校准输出边界。"
+        }
+      ]
+    },
+    "natal-ziwei-geju": {
+      "scope": "natal-ziwei-geju.md",
+      "items": [
+        {
+          "id": "ziwei-geju.engine-detects",
+          "statement": "格局由排盘引擎格局事实判定",
+          "verdict": "keep_skill_policy",
+          "reason": "数据来源边界。"
+        },
+        {
+          "id": "ziwei-geju.theme-not-goodbad",
+          "statement": "格局说明是结构注解，不单独作吉凶结论",
+          "verdict": "keep_skill_policy",
+          "reason": "反过断护栏。"
+        },
+        {
+          "id": "ziwei-geju.pattern-table",
+          "statement": "紫微朝垣、日月并明、反背、日丽中天、武贪同行、雄宿朝元等边界",
+          "verdict": "deferred_needs_factor",
+          "reason": "部分格局边界与引擎事实字段对应关系未逐条核实；不宜直接入断语表。"
+        },
+        {
+          "id": "ziwei-geju.multi-pattern",
+          "statement": "同宫多重格局只取最显著主线",
+          "verdict": "keep_skill_policy",
+          "reason": "解释优先级。"
+        },
+        {
+          "id": "ziwei-geju.no-hand-derive",
+          "statement": "不自行据星曜组成现推格局",
+          "verdict": "keep_skill_policy",
+          "reason": "防幻觉。"
+        }
+      ]
+    },
+    "natal-ziwei-gexing": {
+      "scope": "natal-ziwei-gexing.md",
+      "items": [
+        {
+          "id": "ziwei-gexing.flow",
+          "statement": "先排盘，再命宫主星/辅煞，再问题域取象",
+          "verdict": "keep_skill_policy",
+          "reason": "分析流程。"
+        },
+        {
+          "id": "ziwei-gexing.fourteen-stars",
+          "statement": "十四主星性格对照",
+          "verdict": "keep_mapping",
+          "reason": "通用星曜解释；skill 需要稳定措辞，不建议贸然全入断语。"
+        },
+        {
+          "id": "ziwei-gexing.empty-palace",
+          "statement": "空宫借对宫只作观察；双主星复合",
+          "verdict": "keep_skill_policy",
+          "reason": "空宫规则。"
+        }
+      ]
+    },
+    "natal-ziwei-gong12": {
+      "scope": "natal-ziwei-gong12.md",
+      "items": [
+        {
+          "id": "ziwei-gong12.palace-table",
+          "statement": "十二宫基础分析要点",
+          "verdict": "keep_mapping",
+          "reason": "宫位语义映射。"
+        },
+        {
+          "id": "ziwei-gong12.empty-palace-engine",
+          "statement": "空宫借星由 engine 返回；命宫借对宫，其他宫看对宫但不等同有星",
+          "verdict": "keep_skill_policy",
+          "reason": "产品口径。"
+        },
+        {
+          "id": "ziwei-gong12.sihua-table",
+          "statement": "化禄/权/科/忌基础含义",
+          "verdict": "keep_mapping",
+          "reason": "四化解释映射。"
+        },
+        {
+          "id": "ziwei-gong12.origin-palace",
+          "statement": "来因宫由 engine 标识，不按天干推导；各宫对应人生课题",
+          "verdict": "keep_mapping",
+          "reason": "产品口径与解释映射。"
+        }
+      ]
+    },
+    "natal-ziwei-liunian": {
+      "scope": "natal-ziwei-liunian.md",
+      "items": [
+        {
+          "id": "ziwei-liunian.year-palace-table",
+          "statement": "流年命宫落十二宫的分析方向",
+          "verdict": "keep_mapping",
+          "reason": "流年宫位解释映射。"
+        },
+        {
+          "id": "ziwei-liunian.sihua-table",
+          "statement": "流年四化基础解读",
+          "verdict": "keep_mapping",
+          "reason": "四化解释映射。"
+        },
+        {
+          "id": "ziwei-liunian.star-table",
+          "statement": "流年辅星基本影响",
+          "verdict": "keep_mapping",
+          "reason": "流曜解释映射。"
+        }
+      ]
+    },
+    "natal-ziwei-xiangmao": {
+      "scope": "natal-ziwei-xiangmao.md",
+      "items": [
+        {
+          "id": "ziwei-xiangmao.main-star-table",
+          "statement": "十四主星面部、气质、体型倾向",
+          "verdict": "keep_mapping",
+          "reason": "相貌解释映射。"
+        },
+        {
+          "id": "ziwei-xiangmao.body-palace",
+          "statement": "身宫补充后天体态，不反压命宫",
+          "verdict": "keep_skill_policy",
+          "reason": "优先级护栏。"
+        },
+        {
+          "id": "ziwei-xiangmao.helper-modifiers",
+          "statement": "羊陀主骨感痕迹，火铃壮实偏燥，昌曲斯文",
+          "verdict": "keep_mapping",
+          "reason": "辅星修正映射。"
+        },
+        {
+          "id": "ziwei-xiangmao.user-description-routing",
+          "statement": "用户描述矮胖壮瘦时逐诉求映射，单信号只作倾向",
+          "verdict": "keep_skill_policy",
+          "reason": "问法分流。"
+        },
+        {
+          "id": "ziwei-xiangmao.cross-system-boundary",
+          "statement": "本卡只给紫微侧体型倾向，跨体系互证由场景卡编排",
+          "verdict": "keep_skill_policy",
+          "reason": "体系边界。"
+        }
+      ]
+    },
+    "natal-ziwei-yingqi": {
+      "scope": "natal-ziwei-yingqi.md",
+      "items": [
+        {
+          "id": "ziwei-yingqi.decision-source",
+          "statement": "判定来源由工具候选和宫星组合给出",
+          "verdict": "keep_skill_policy",
+          "reason": "数据来源边界。"
+        },
+        {
+          "id": "ziwei-yingqi.domain-grabbers",
+          "statement": "健康/事业/婚姻/学业等领域用不同宫星抓手",
+          "verdict": "keep_mapping",
+          "reason": "领域取象映射。"
+        },
+        {
+          "id": "ziwei-yingqi.health-heavy-closure",
+          "statement": "重病/手术须多信号和限运流年闭环",
+          "verdict": "keep_skill_policy",
+          "reason": "医疗安全护栏。"
+        },
+        {
+          "id": "ziwei-yingqi.marriage-stars",
+          "statement": "红鸾天喜入夫妻宫为婚恋喜庆引动",
+          "verdict": "already_covered",
+          "assertion_ids": [
+            "ystar_103",
+            "ystar_104"
+          ]
+        },
+        {
+          "id": "ziwei-yingqi.study-stars",
+          "statement": "文昌文曲详解用于学业参考",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "ystar_107",
+            "ystar_108"
+          ],
+          "reason": "流年引动已覆盖；详解解释保留 skill。"
+        }
+      ]
+    },
+    "natal-ziwei-zhuxing": {
+      "scope": "natal-ziwei-zhuxing.md",
+      "items": [
+        {
+          "id": "ziwei-zhuxing.major-star-table",
+          "statement": "十四主星性格基调",
+          "verdict": "keep_mapping",
+          "reason": "主星解释映射。"
+        },
+        {
+          "id": "ziwei-zhuxing.helper-star-table",
+          "statement": "辅星作用方向",
+          "verdict": "keep_mapping",
+          "reason": "辅星解释映射。"
+        },
+        {
+          "id": "ziwei-zhuxing.single-star-upgrade",
+          "statement": "单星曜取象升格，须组合条件",
+          "verdict": "partial_coverage",
+          "assertion_ids": [
+            "xg_301"
+          ],
+          "reason": "华盖已有；多数组合未入断语表。"
+        },
+        {
+          "id": "ziwei-zhuxing.combo-table",
+          "statement": "主星组合在不同语境取不同象",
+          "verdict": "keep_mapping",
+          "reason": "组合取象映射。"
+        },
+        {
+          "id": "ziwei-zhuxing.anti-fixed-label",
+          "statement": "固定取象只作方向提示，不单独定案",
+          "verdict": "keep_skill_policy",
+          "reason": "反刻板护栏。"
+        },
+        {
+          "id": "ziwei-zhuxing.origin-parent-palace",
+          "statement": "家境以父母宫主星庙陷定，田宅空劫辅助",
+          "verdict": "deferred_needs_factor",
+          "reason": "跨宫出身判据未入断语表。"
+        },
+        {
+          "id": "ziwei-zhuxing.order",
+          "statement": "先制化合走，再组合表，单星/神煞只作倾向",
+          "verdict": "keep_skill_policy",
+          "reason": "取象顺序。"
+        }
+      ]
+    },
+    "naming-methods": {
+      "scope": "naming-ENTRY.md、naming-app-foreign.md、naming-app-naming.md、naming-app-selfcheck.md、naming-bazi-calibration.md、naming-bazi-yongshen.md、naming-qiming-ziku.md",
+      "items": [
+        {
+          "id": "naming.routing",
+          "statement": "通用起名、外国人起名、自选评估分流",
+          "verdict": "keep_skill_policy",
+          "reason": "场景路由。"
+        },
+        {
+          "id": "naming.full-flow",
+          "statement": "姓氏候选→用神计划→取字→组名→校验→输出",
+          "verdict": "keep_skill_policy",
+          "reason": "工具编排。"
+        },
+        {
+          "id": "naming.blocking-surname",
+          "statement": "外国人必须先确认中文姓候选；终选等用户反馈",
+          "verdict": "keep_skill_policy",
+          "reason": "阻塞确认护栏。"
+        },
+        {
+          "id": "naming.no-demonstration-names",
+          "statement": "不得采用示范名、明星名、网红名；候选彼此差异化",
+          "verdict": "keep_skill_policy",
+          "reason": "防收敛和抄袭。"
+        },
+        {
+          "id": "naming.pool-only",
+          "statement": "生成候选只能来自取字能力返回字池；只删不增",
+          "verdict": "keep_skill_policy",
+          "reason": "工具边界。"
+        },
+        {
+          "id": "naming.missing-hour-fallback",
+          "statement": "时辰缺失或模糊不补时，改期望五行并标注未评估用神",
+          "verdict": "keep_skill_policy",
+          "reason": "防默认时辰。"
+        },
+        {
+          "id": "naming.yongshen-consumption",
+          "statement": "起名只消费八字用神裁决，不重新裁决",
+          "verdict": "keep_skill_policy",
+          "reason": "职责边界。"
+        },
+        {
+          "id": "naming.check-semantic",
+          "statement": "校验逐字返回用/喜/忌/中性事实，不预设组合",
+          "verdict": "keep_skill_policy",
+          "reason": "工具输出解释。"
+        },
+        {
+          "id": "naming.source-evidence-levels",
+          "statement": "出处分直接典故、字义联想、现代审美；不可核时降级",
+          "verdict": "keep_skill_policy",
+          "reason": "防编造出处。"
+        },
+        {
+          "id": "naming.rare-or-negative-filter",
+          "statement": "生僻、负面、工具器物、病虫歹尸偏旁默认删除；罕见字需强理由",
+          "verdict": "keep_skill_policy",
+          "reason": "字池质量规则。"
+        },
+        {
+          "id": "naming.frequency-semantic",
+          "statement": "frequency 是规范汉字表分级，不等于流行度；rare默认删，standard需强理由",
+          "verdict": "keep_mapping",
+          "reason": "解释工具字段。"
+        },
+        {
+          "id": "naming.quality-self-check",
+          "statement": "雅而不僻、通而不俗、音韵顺口、出处可核",
+          "verdict": "keep_skill_policy",
+          "reason": "质量护栏。"
+        }
+      ]
+    },
+    "fengshui-methods": {
+      "scope": "fengshui-ENTRY.md、fengshui-app-fengshui.md、fengshui-bazhai-youxing.md、fengshui-xuankong-feixing.md、fengshui-xuankong-yuanyun.md",
+      "items": [
+        {
+          "id": "fengshui.routing",
+          "statement": "风水/家宅/布局/流年飞星统一进 app 卡，再分八宅和玄空",
+          "verdict": "keep_skill_policy",
+          "reason": "路由。"
+        },
+        {
+          "id": "fengshui.input-boundary",
+          "statement": "八宅需出生年份性别；玄空需宅运日期与坐向；坐向必须相对180度",
+          "verdict": "keep_skill_policy",
+          "reason": "输入边界。"
+        },
+        {
+          "id": "fengshui.confirm-sitting",
+          "statement": "阳台、大门、主采光可能不同，必须确认以哪项定坐向",
+          "verdict": "keep_skill_policy",
+          "reason": "阻塞确认。"
+        },
+        {
+          "id": "fengshui.door-bedroom-stove-defaults",
+          "statement": "门取主要出入口，主卧取主用/最大卧室，灶取独立厨房；需用户确认",
+          "verdict": "keep_skill_policy",
+          "reason": "默认值确认。"
+        },
+        {
+          "id": "fengshui.bazhai-meaning-table",
+          "statement": "游年九星五行、应事、化解含义",
+          "verdict": "keep_mapping",
+          "reason": "工具输出星名/档位，但不输出全部应事含义。"
+        },
+        {
+          "id": "fengshui.xuankong-star-meaning-table",
+          "statement": "玄空九星传统取象和须另核条件",
+          "verdict": "keep_mapping",
+          "reason": "工具输出星数/星名/五行，不输出固有吉凶语义。"
+        },
+        {
+          "id": "fengshui.bazhai-vs-xuankong-disambiguation",
+          "statement": "八宅游年九星与玄空一白~九紫必须区分",
+          "verdict": "keep_skill_policy",
+          "reason": "同名“九星”歧义护栏。"
+        },
+        {
+          "id": "fengshui.conflict-arbitration",
+          "statement": "八宅与玄空冲突分层裁决，两侧证据都呈现",
+          "verdict": "keep_skill_policy",
+          "reason": "跨体系合参。"
+        },
+        {
+          "id": "fengshui.period-boundary",
+          "statement": "换运边界读引擎 `yun.年界`，不采用立春等其他流派口径",
+          "verdict": "keep_skill_policy",
+          "reason": "引擎口径。"
+        }
+      ]
+    },
+    "divination-liuyao-methods": {
+      "scope": "divination-ENTRY.md、divination-app-question.md、divination-app-outcome.md、divination-liuyao-yongshen.md、divination-liuyao-yuejian.md、divination-liuyao-jixiong.md、divination-liuyao-patterns.md、divination-liuyao-liushou.md、divination-liuyao-yingqi.md、divination-liuyao-topic-boundaries.md",
+      "items": [
+        {
+          "id": "liuyao.confirm-method",
+          "statement": "先锁目标并阻塞确认方法；用户指定体系时安全校验后优先",
+          "verdict": "keep_skill_policy",
+          "reason": "交互护栏。"
+        },
+        {
+          "id": "liuyao.event-chain",
+          "statement": "起卦创建唯一事件，排盘和解读消费同一事件；不自动重试",
+          "verdict": "keep_skill_policy",
+          "reason": "事件不可变边界。"
+        },
+        {
+          "id": "liuyao.question-held-by-llm",
+          "statement": "问题文本由调用方持有，不放入 event 或 ask 参数",
+          "verdict": "keep_skill_policy",
+          "reason": "工具边界。"
+        },
+        {
+          "id": "liuyao.manual-coins",
+          "statement": "手动摇币按六组三枚正反原样传递，不换算爻值或判断动爻",
+          "verdict": "keep_skill_policy",
+          "reason": "事实保真。"
+        },
+        {
+          "id": "liuyao.no-event-retry",
+          "statement": "起卦失败不得自动重发；用户确认后重新起卦",
+          "verdict": "keep_skill_policy",
+          "reason": "事件唯一性。"
+        },
+        {
+          "id": "liuyao.yongshen-engine-owned",
+          "statement": "占事到用神映射由引擎内部数据表维护",
+          "verdict": "keep_skill_policy",
+          "reason": "映射权威在引擎。"
+        },
+        {
+          "id": "liuyao.relationship-perspective",
+          "statement": "男占女取妻财，女占男取官鬼；无法唯一时显式指定并确认",
+          "verdict": "keep_skill_policy",
+          "reason": "问卦人视角规则。"
+        },
+        {
+          "id": "liuyao.weakness-modifiers",
+          "statement": "旺衰、月破、旬空、入墓、长生决定基调与时效",
+          "verdict": "keep_mapping",
+          "reason": "解释工具返回事实。"
+        },
+        {
+          "id": "liuyao.moving-relations",
+          "statement": "动爻对用神/原神/忌神关系决定助力阻碍",
+          "verdict": "keep_mapping",
+          "reason": "关系事实解释。"
+        },
+        {
+          "id": "liuyao.patterns",
+          "statement": "旬空、月破、飞伏、进退、冲合、反吟伏吟、墓库等结构修正",
+          "verdict": "keep_mapping",
+          "reason": "结构事实解释。"
+        },
+        {
+          "id": "liuyao.six-gods",
+          "statement": "六神定色彩情状和人事在场倾向",
+          "verdict": "keep_mapping",
+          "reason": "六神解释映射。"
+        },
+        {
+          "id": "liuyao.timing-candidates",
+          "statement": "只解释工具返回且与所问对象相关的应期候选",
+          "verdict": "keep_skill_policy",
+          "reason": "防外推。"
+        },
+        {
+          "id": "liuyao.topic-boundaries",
+          "statement": "求财、事业、学业、失物、健康、婚恋、官司等分别设反过断边界",
+          "verdict": "keep_skill_policy",
+          "reason": "专题安全边界。"
+        },
+        {
+          "id": "liuyao.condition-rule-consumption",
+          "statement": "条件候选只按返回的陈述、条件还原、结论与禁断解读",
+          "verdict": "keep_skill_policy",
+          "reason": "候选来源边界。"
+        }
+      ]
+    },
+    "divination-qimen-methods": {
+      "scope": "divination-ENTRY.md、divination-app-decision.md、divination-qimen-yongshen.md、divination-qimen-bamen.md、divination-qimen-jiuxing.md、divination-qimen-bashen.md、divination-qimen-yingqi.md、divination-qimen-jinhan.md、divination-qimen-quarter.md、divination-qimen-lost-property.md、divination-qimen-thief-capture.md、divination-qimen-missing-person.md、divination-qimen-capture-escape.md",
+      "items": [
+        {
+          "id": "qimen.confirm-place-and-matter",
+          "statement": "先确认地点与事项；缺地点先问城市或经度",
+          "verdict": "keep_skill_policy",
+          "reason": "输入护栏。"
+        },
+        {
+          "id": "qimen.one-shot",
+          "statement": "奇门一次性问测完成排盘、投影和解读；追问不新建问测",
+          "verdict": "keep_skill_policy",
+          "reason": "scope 边界。"
+        },
+        {
+          "id": "qimen.no-invented-advanced",
+          "statement": "用户未明确高级方法时不臆造高级参数",
+          "verdict": "keep_skill_policy",
+          "reason": "防过度推断。"
+        },
+        {
+          "id": "qimen.yongshen-table-owned",
+          "statement": "用神符号取值和事象映射以引擎/数据表为准",
+          "verdict": "keep_skill_policy",
+          "reason": "映射权威。"
+        },
+        {
+          "id": "qimen.door-star-spirit-tables",
+          "statement": "门、星、神传统含义与流派差异作为解释映射",
+          "verdict": "keep_mapping",
+          "reason": "工具返回事实需要解释。"
+        },
+        {
+          "id": "qimen.timing-candidates",
+          "statement": "只解释 Reading 引用的应期候选",
+          "verdict": "keep_skill_policy",
+          "reason": "防外推。"
+        },
+        {
+          "id": "qimen.special-closures",
+          "statement": "失物、捕盗、走失、捕亡、画像分别声明已入表/未入表边界",
+          "verdict": "keep_skill_policy",
+          "reason": "覆盖边界。"
+        },
+        {
+          "id": "qimen.no-hit",
+          "statement": "无命中时输出“本表未命中”，不补断",
+          "verdict": "keep_skill_policy",
+          "reason": "防幻觉。"
+        },
+        {
+          "id": "qimen.jinhan-field-boundary",
+          "statement": "金函玉镜只消费指定字段，普通奇门因子不在其中",
+          "verdict": "keep_skill_policy",
+          "reason": "方法边界。"
+        },
+        {
+          "id": "qimen.quarter-boundary",
+          "statement": "刻家规则是具名时间切分，不冒充通用传统标准",
+          "verdict": "keep_skill_policy",
+          "reason": "流派边界。"
+        }
+      ]
+    },
+    "divination-huangli-methods": {
+      "scope": "divination-app-date.md、divination-huangli-jiri.md、divination-huangli-yiji.md",
+      "items": [
+        {
+          "id": "huangli.intent-mapping",
+          "statement": "用户目标必须映射到支持事项；表外事项先确认",
+          "verdict": "keep_skill_policy",
+          "reason": "防止改写事项。"
+        },
+        {
+          "id": "huangli.engine-adaptation",
+          "statement": "事项适配由 engine 判定，LLM只输出日期适配事实",
+          "verdict": "keep_skill_policy",
+          "reason": "判定权威。"
+        },
+        {
+          "id": "huangli.priority-order",
+          "statement": "按吉日优先级排序，并列出排除日和原因",
+          "verdict": "keep_skill_policy",
+          "reason": "输出编排。"
+        },
+        {
+          "id": "huangli.no-prediction",
+          "statement": "只回答日期适配，不预测事情必然成功",
+          "verdict": "keep_skill_policy",
+          "reason": "边界。"
+        }
+      ]
+    },
+    "root-runtime-methods": {
+      "scope": "SKILL.md、FAQ.md、ops-FEEDBACK.md",
+      "items": [
+        {
+          "id": "root.route-and-output",
+          "statement": "全域路由、执行循环、统一硬边界和输出要求",
+          "verdict": "keep_skill_policy",
+          "reason": "全局作业指导。"
+        },
+        {
+          "id": "root.failure-handling",
+          "statement": "工具失败、缺输入、时辰模糊、中断恢复按 FAQ处理",
+          "verdict": "keep_skill_policy",
+          "reason": "运行失败规则。"
+        },
+        {
+          "id": "root.privacy",
+          "statement": "出生信息和提问仅当前会话；不写档案、不进反馈",
+          "verdict": "keep_skill_policy",
+          "reason": "隐私边界。"
+        },
+        {
+          "id": "root.feedback-transport",
+          "statement": "反馈端点、payload、提交方式由 ops-FEEDBACK 与 feedback.py承担",
+          "verdict": "keep_skill_policy",
+          "reason": "反馈非命理断语。"
+        }
+      ]
+    }
+  }
+}
