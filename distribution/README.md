@@ -6,7 +6,7 @@
 
 ```text
 liki-expert/
-  profile.json         # 内部 AgentRuntime profile
+  profile.json         # 内部 AgentGo profile
   deployment.yaml      # 内部 agent 配置
   host-adapter.md      # 仅内部部署使用；公开包不得包含
 

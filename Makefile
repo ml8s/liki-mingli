@@ -37,24 +37,24 @@ build-deployment: ## Generate AgentDeployment artifacts for all profiles
 		python3 scripts/generate_deployment.py --profile "$$p" --out dist; \
 	done
 
-AGENT_RUNTIME_IMAGE ?=
-# 覆盖为本地二进制时，跳过容器内 pinned 运行时（仅用于离线开发）
-AGENT_RUNTIME_VALIDATOR ?=
+AGENTGO_IMAGE ?= localhost/agentgo-local/agentgo:v1.0.0
+# 覆盖为本地二进制时，跳过容器内 pinned AgentGo（仅用于离线开发）
+AGENTGO_VALIDATOR ?=
 
-runtime-validate: build-deployment ## Validate deployment artifacts (AGENT_RUNTIME_IMAGE=<ref> or AGENT_RUNTIME_VALIDATOR=<bin>)
+runtime-validate: build-deployment ## Validate deployment artifacts (AGENTGO_VALIDATOR=<bin>; uses agentgo:v1.0.0 by default)
 	@set -eu; \
-	if [ -z "$(AGENT_RUNTIME_VALIDATOR)" ] && [ -z "$(AGENT_RUNTIME_IMAGE)" ]; then \
-		echo "set AGENT_RUNTIME_IMAGE=agent-runtime-local/agent-runtime:<sha> (or AGENT_RUNTIME_VALIDATOR)" >&2; exit 2; \
+	if [ -z "$(AGENTGO_VALIDATOR)" ]; then \
+		echo "Validating with $(AGENTGO_IMAGE)" >&2; \
 	fi; \
-	if [ -n "$(AGENT_RUNTIME_VALIDATOR)" ]; then \
+	if [ -n "$(AGENTGO_VALIDATOR)" ]; then \
 		for p in $(DEPLOYMENT_PROFILES); do \
-			$(AGENT_RUNTIME_VALIDATOR) validate -deployment "dist/$$p/deployment.json"; \
+			$(AGENTGO_VALIDATOR) validate -deployment "dist/$$p/deployment.json"; \
 		done; \
 	else \
 		for p in $(DEPLOYMENT_PROFILES); do \
 			docker run --rm -v "$$PWD/dist:/deployment:ro" \
-				-e AGENT_RUNTIME_DEPLOYMENT_FILE=/deployment/$$p/deployment.json \
-				--entrypoint /agent-runtime $(AGENT_RUNTIME_IMAGE) \
+				-e AGENTGO_DEPLOYMENT_FILE=/deployment/$$p/deployment.json \
+				--entrypoint /agentgo $(AGENTGO_IMAGE) \
 				validate -deployment /deployment/$$p/deployment.json; \
 		done; \
 	fi
@@ -82,8 +82,8 @@ IMAGE_TAG ?= local
 GIT_COMMIT ?= $(shell git rev-parse HEAD)
 GIT_SHA ?= $(shell git rev-parse --short=12 HEAD)
 BUILD_TIME ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
-# 装配镜像的 base：由调用方传入本地 runtime 镜像引用。
-BASE_IMAGE ?=
+# 装配镜像的 base：独立 AgentGo release 镜像；调用方可显式覆盖。
+BASE_IMAGE ?= $(AGENTGO_IMAGE)
 
 image-engine: ## Build the local engine development image
 	docker build -f engine/dev/Dockerfile \
@@ -106,8 +106,7 @@ image-liki-mcp: ## Build the LIKI product MCP image
 		--build-arg BUILD_TIME=$(BUILD_TIME) \
 		-t $(IMAGE_REGISTRY)/liki-mcp:$(IMAGE_TAG) mcp
 
-image-assembly: build-deployment ## Build the aggregate expert image (BASE_IMAGE=<local runtime ref> required)
-	@test -n "$(BASE_IMAGE)" || { echo "set BASE_IMAGE=agent-runtime-local/agent-runtime:<sha>" >&2; exit 2; }
+image-assembly: build-deployment ## Build the aggregate expert image from agentgo:v1.0.0
 	@rm -rf assembly/dist && mkdir -p assembly/dist/deployment && cp -r "dist/$(DEPLOYMENT_PROFILES)" "assembly/dist/deployment/$(DEPLOYMENT_PROFILES)"
 	@cp -r skills assembly/dist/skills
 	@docker build -f assembly/Dockerfile \

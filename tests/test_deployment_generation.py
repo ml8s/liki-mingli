@@ -12,7 +12,7 @@ from _helpers import ROOT
 PROFILES = ("liki-expert",)
 class TestDeploymentGeneration(unittest.TestCase):
     def setUp(self):
-        self._tmp = tempfile.mkdtemp(prefix="liki-agent-runtime-")
+        self._tmp = tempfile.mkdtemp(prefix="agentgo-")
         self.out = Path(self._tmp) / "out"
         self.addCleanup(shutil.rmtree, self._tmp, ignore_errors=True)
 

@@ -117,7 +117,7 @@ edge. Rate limiting is owned by the edge (cloud LB / WAF / Caddy); the product
 MCP itself does not rate-limit.
 
 LIKI-MCP is the public SKILL MCP surface with SkillPay paywall.
-EXPERT (agent-runtime) connects directly to ENGINE and COUNSEL,
+EXPERT (agentgo) connects directly to ENGINE and COUNSEL,
 bypassing the product MCP and its paywall. It exposes the selected
 ENGINE chart / fact tools, COUNSEL judgment tools, naming tools, and
 `liuyao_qigua` / `liuyao_ask` / `qimen_ask`. LIKI additionally exposes

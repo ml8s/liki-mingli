@@ -6,7 +6,7 @@
 
 ```text
 浏览器 → Caddy → liki-web (BFF)
-                   └─AG-UI→ liki-agent-runtime（装配镜像）
+                   └─AG-UI→ agentgo（装配镜像）
                               ├─MCP→ engine-mcp（免费，直连）
                               └─MCP→ counsel-mcp（免费，直连）
 
@@ -20,7 +20,7 @@ Liki 只有一个生产专家身份：`liki`；其 Expert assembly 产物是 `li
 | 仓 | 角色 | 产物 |
 |---|---|---|
 | liki | 领域、MCP 与制品仓 | engine / counsel MCP、专家身份、deployment 工件、装配镜像、根 skill |
-| liki-agent-runtime | 通用运行时仓 | 纯运行时镜像、AgentDeployment 校验 |
+| agentgo | 独立 Agent 执行平台 | 纯运行时镜像、AgentDeployment 校验 |
 | liki-web | 产品 BFF 仓 | BFF、前端和公共站点 |
 | liki-deploy | 发布编排仓 | compose、env、Caddyfile 和部署流程 |
 
@@ -57,7 +57,7 @@ skills/liki/SKILL.md ────────────┐
 distribution/liki-expert/host-adapter.md ─────┤
 distribution/liki-expert/deployment.yaml ──────────┼→ generate_deployment → deployment.json
 distribution/liki-expert/profile.json ──────────────┘         ↓
-liki-agent-runtime → liki-expert
+agentgo → liki-expert
 ```
 
 装配镜像包含单专家 profile 和公共 skill 树：

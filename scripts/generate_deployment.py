@@ -1,6 +1,6 @@
 """AgentDeployment 工件生成器。
 
-读唯一专家身份 + `distribution/liki-expert/` 部署配置，组装 `liki-agent-runtime`
+读唯一专家身份 + `distribution/liki-expert/` 部署配置，组装 `agentgo`
 直接消费的 deployment 工件（deployment.json + instruction + output schema）。
 
 身份单一源：`skills/liki/SKILL.md`。内部部署只追加

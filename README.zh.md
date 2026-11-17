@@ -117,7 +117,7 @@ Skill 本体免费安装使用（`liki-free`）。另有付费的 `liki-pro` 分
 
 ### 和 liki.hk 网页版是什么关系？
 
-同一套引擎与规则体系。liki.hk 面向网页用户，Liki Skill 把同样的能力带进你的 AI 助手。本仓库 `liki-mingli` 是源库（引擎、counsel、skill 与部署产物）；`liki` 是 Skill 分发库；运行时与前端分别是 `liki-agent-runtime`、`liki-web`，部署编排在 `liki-deploy`。
+同一套引擎与规则体系。liki.hk 面向网页用户，Liki Skill 把同样的能力带进你的 AI 助手。本仓库 `liki-mingli` 是源库（引擎、counsel、skill 与部署产物）；`liki` 是 Skill 分发库；Agent 执行平台与前端分别是 `agentgo`、`liki-web`，部署编排在 `liki-deploy`。
 
 ## 文档与链接
 

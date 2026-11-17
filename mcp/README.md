@@ -1,7 +1,7 @@
 # Liki MCP
 
 Product-facing aggregate MCP service for SKILL with SkillPay paywall.
-EXPERT (agent-runtime) connects directly to ENGINE and COUNSEL.
+EXPERT (agentgo) connects directly to ENGINE and COUNSEL.
 
 ## Contract
 
